@@ -8,4 +8,25 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BrushTest.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/LoseDialogue.unity
+    guid: c3fef25ddc490472ca175ef6308ad612
+  - enabled: 1
+    path: Assets/Scenes/LoseLoseDialogue.unity
+    guid: 6d6f724143aa247928d3411776750788
+  - enabled: 1
+    path: Assets/Scenes/WinLoseDialogue.unity
+    guid: 33517186246294fdd95b4ad13f55fc36
+  - enabled: 1
+    path: Assets/Scenes/PrologueDialogueScene.unity
+    guid: c59835b2c4c3749de9ad5781c04aba19
+  - enabled: 1
+    path: Assets/Scenes/WinDialogue.unity
+    guid: 1da3159f40729472dbaff91a952b3787
+  - enabled: 1
+    path: Assets/Scenes/LoseWinDialogue.unity
+    guid: 6daa7276f830846c386746c95808c16d
+  - enabled: 1
+    path: Assets/Scenes/WinWinDialogue.unity
+    guid: f8a7e829968cf492c85b8863db5b82b4
   m_configObjects: {}
