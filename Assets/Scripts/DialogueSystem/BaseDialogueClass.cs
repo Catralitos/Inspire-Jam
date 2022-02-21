@@ -8,16 +8,13 @@ namespace DialogueSystem
 
     public class BaseDialogueClass : MonoBehaviour
     {
-        public bool finished { get; private set; }
-
-        protected IEnumerator WriteText(string input, Text textHolder, Color textColor, Font textFont, float delay)
+        protected IEnumerator WriteText(string[] input, Text textHolder, Color textColor, Font textFont, float delay, int index)
         {
-            for(int i = 0; i < input.Length; i++)
+            for(int i = 0; i < input[index].Length; i++)
             {
-                textHolder.text += input[i];
+                textHolder.text += input[index][i];
                 yield return new WaitForSeconds(delay);
             }
-            finished = true;
         }
     }
 }
