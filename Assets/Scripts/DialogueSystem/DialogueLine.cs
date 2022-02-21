@@ -1,13 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace DialogueSystem
 {
-    public class DialogueLine : BaseDialogueClass
+    [Serializable] public class DialogueLine
     {
-        private Text textHolder;
+
+        public string line;
+        public Sprite leftSprite;
+        public Sprite rightSprite;
+
+        /*private Text textHolder;
         private int index;
         public bool finished { get; private set; }
 
@@ -69,7 +72,7 @@ namespace DialogueSystem
                 if (index == lines.Length - 1)
                     finished = true;
             }
-        }
+        }*/
     }
 }
 

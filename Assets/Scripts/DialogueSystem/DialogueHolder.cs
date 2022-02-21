@@ -1,10 +1,21 @@
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace DialogueSystem
 {
     public class DialogueHolder : MonoBehaviour
     {
+
+        public TextMeshProUGUI dialogBox;
+        public Image leftPortrait;
+        public Image rightPortrait;
+
+
+        public List<DialogueLine> dialogueLines;
+        
         private void Awake()
         {
             StartCoroutine(dialogueSequence());
@@ -15,8 +26,10 @@ namespace DialogueSystem
             {
                 Deactivate();
                 transform.GetChild(i).gameObject.SetActive(true);
-                yield return new WaitUntil(()=> transform.GetChild(i).GetComponent<DialogueLine>().finished);
+                //yield return new WaitUntil(()=> transform.GetChild(i).GetComponent<DialogueLine>().finished);
             }
+
+            yield return null;
         }
         private void Deactivate()
         {
