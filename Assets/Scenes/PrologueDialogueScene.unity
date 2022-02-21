@@ -307,7 +307,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575614d62b2564aafa476c3df9788ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: I'm not Sans
+  lines:
+  - I'm not Sans
+  - hello to u too
   textColor: {r: 0, g: 0, b: 0, a: 0}
   textFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   delay: 0.1
@@ -1120,7 +1122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575614d62b2564aafa476c3df9788ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: I'm Sans
+  lines:
+  - I'm Sans
+  - Hello there!
   textColor: {r: 0, g: 0, b: 0, a: 0}
   textFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   delay: 0.1
