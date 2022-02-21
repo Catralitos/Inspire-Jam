@@ -29,21 +29,23 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    public BattleState state;
+    [HideInInspector] public BattleState state;
 
-    public Player playerUnit;
-    public Enemy enemyUnit;
-
+    [Header("Player")] public Player playerUnit;
     public BattleHUD playerHUD;
+
+    [Header("Enemy")] public Enemy enemyUnit;
     public BattleHUD enemyHUD;
 
-    public TextMeshProUGUI dialogueText;
+    [Header("UI")] public TextMeshProUGUI dialogueText;
 
-    public UnitMoves.Move playerMove;
-    public UnitMoves.Move enemyMove;
+    [HideInInspector] public UnitMoves.Move playerMove;
+    [HideInInspector] public UnitMoves.Move enemyMove;
 
-    public UnitMoves.Move lastPlayerMove;
-    public UnitMoves.Move lastEnemyMove;
+    [HideInInspector] public UnitMoves.Move lastPlayerMove;
+    [HideInInspector] public UnitMoves.Move lastEnemyMove;
+
+    [Header("Brush")] public Transform brush;
 
     private void Start()
     {
@@ -55,17 +57,25 @@ public class BattleSystem : MonoBehaviour
     {
         if (state == BattleState.TURN)
         {
-            if (Input.GetKey(KeyCode.A))
+            //Vector3 temp = Input.mousePosition;
+            //temp.z = .4f;
+
+            /*if (Input.GetKey(KeyCode.A))
             {
                 Debug.Log("Detetou o A");
                 Attack(playerUnit);
-            }
+            }*/
+            //brush.position = Vector3.Lerp(brush.position, Camera.main.ScreenToWorldPoint(temp), .5f);
+            //ClampPosition(brush);
         }
-
-        /*if (state == BattleState.PLAYOUT)
-        {
-            PlayOutTurn();
-        }*/
+    }
+    
+    private void ClampPosition(Transform obj)
+    {
+        Vector3 pos = Camera.main.WorldToViewportPoint(obj.position);
+        pos.x = Mathf.Clamp01(pos.x);
+        pos.y = Mathf.Clamp01(pos.y);
+        obj.position = Camera.main.ViewportToWorldPoint(pos);
     }
 
     IEnumerator SetupBattle()
@@ -150,7 +160,7 @@ public class BattleSystem : MonoBehaviour
         Debug.Log("Entrou no EnemyAction");
         UnitMoves.Instance.PerformMove(enemyMove, playerMove, enemyUnit, playerUnit);
         playerHUD.SetHP(playerUnit.currentHp);
-        
+
         if (playerUnit.currentHp <= 0)
         {
             state = BattleState.LOST;
