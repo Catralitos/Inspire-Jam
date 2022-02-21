@@ -7,6 +7,7 @@ public enum BattleState
 {
     START,
     TURN,
+    ERROR,
     PLAYOUT,
     WON,
     LOST
@@ -53,31 +54,6 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(SetupBattle());
     }
 
-    private void Update()
-    {
-        if (state == BattleState.TURN)
-        {
-            //Vector3 temp = Input.mousePosition;
-            //temp.z = .4f;
-
-            /*if (Input.GetKey(KeyCode.A))
-            {
-                Debug.Log("Detetou o A");
-                Attack(playerUnit);
-            }*/
-            //brush.position = Vector3.Lerp(brush.position, Camera.main.ScreenToWorldPoint(temp), .5f);
-            //ClampPosition(brush);
-        }
-    }
-    
-    private void ClampPosition(Transform obj)
-    {
-        Vector3 pos = Camera.main.WorldToViewportPoint(obj.position);
-        pos.x = Mathf.Clamp01(pos.x);
-        pos.y = Mathf.Clamp01(pos.y);
-        obj.position = Camera.main.ViewportToWorldPoint(pos);
-    }
-
     IEnumerator SetupBattle()
     {
         DisplayMessage(enemyUnit.unitName + " has appeared!");
@@ -87,19 +63,74 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
+        SetStateToTurn();
+    }
+
+    private void SetStateToTurn()
+    {
         state = BattleState.TURN;
-        DisplayMessage("Paint an action!");
+        DisplayMessage("Paint an action! Press space to finish, and R to clear the canvas.");
     }
 
-    private void DisplayMessage(string message)
+    private void Update()
     {
-        dialogueText.text = message;
+        if (state == BattleState.TURN)
+        {
+            if (Input.GetKey(KeyCode.R))
+            {
+                LineManager.Instance.ClearLine();
+            }
+
+            if (Input.GetKey(KeyCode.Space))
+
+            {
+                //Vector3 temp = Input.mousePosition;
+                //temp.z = .4f;
+
+                /*if (Input.GetKey(KeyCode.A))
+                {
+                    Debug.Log("Detetou o A");
+                    Attack(playerUnit);
+                }*/
+                //brush.position = Vector3.Lerp(brush.position, Camera.main.ScreenToWorldPoint(temp), .5f);
+                //ClampPosition(brush);
+
+                string move = LineManager.Instance.TryRecognize();
+                if (move != "") ChooseMove(move);
+                else StartCoroutine(ActionNotRecognized());
+            }
+        }
     }
 
-    IEnumerator PlayOutTurn()
+    private IEnumerator ActionNotRecognized()
     {
-        Debug.Log("Entrou no PlayoutTurn");
-        if (state != BattleState.PLAYOUT) yield break;
+        state = BattleState.ERROR;
+        DisplayMessage("Your move was not recognized. Please try again.");
+        yield return new WaitForSeconds(3f);
+        SetStateToTurn();
+    }
+
+    private void ChooseMove(string move)
+    {
+        if (state != BattleState.TURN || move == "") return;
+
+        if (move == "Attack")
+        {
+            playerMove = UnitMoves.Move.ATTACK;
+            enemyMove = enemyUnit.ChooseMove(playerUnit, lastEnemyMove, lastPlayerMove);
+            StartCoroutine(nameof(PlayOutTurn));
+        }
+        else if (move == "Defense")
+        {
+            playerMove = UnitMoves.Move.DEFEND;
+            enemyMove = enemyUnit.ChooseMove(playerUnit, lastEnemyMove, lastPlayerMove);
+            StartCoroutine(nameof(PlayOutTurn));
+        }
+    }
+
+    private IEnumerator PlayOutTurn()
+    {
+        state = BattleState.PLAYOUT;
 
         bool playerPerformed = false;
         bool enemyPerformed = false;
@@ -137,13 +168,12 @@ public class BattleSystem : MonoBehaviour
         lastEnemyMove = enemyMove;
 
         state = BattleState.TURN;
-        DisplayMessage("Paint an action!");
+        DisplayMessage("Paint an action! Press space to finish, and R to clear the canvas.");
     }
 
     private void PlayerAction(bool playerPerformed)
     {
         if (playerPerformed) return;
-        Debug.Log("Entrou no PlayerAction");
         UnitMoves.Instance.PerformMove(playerMove, enemyMove, playerUnit, enemyUnit);
         enemyHUD.SetHP(enemyUnit.currentHp);
 
@@ -157,7 +187,6 @@ public class BattleSystem : MonoBehaviour
     private void EnemyAction(bool enemyPerformed)
     {
         if (enemyPerformed) return;
-        Debug.Log("Entrou no EnemyAction");
         UnitMoves.Instance.PerformMove(enemyMove, playerMove, enemyUnit, playerUnit);
         playerHUD.SetHP(playerUnit.currentHp);
 
@@ -167,7 +196,6 @@ public class BattleSystem : MonoBehaviour
             LostBattle();
         }
     }
-
 
     private void WonBattle()
     {
@@ -183,14 +211,16 @@ public class BattleSystem : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
     }
 
-    //todo se calhar mudar isto para um switch case ou assim
-    public void Attack(Unit attacker)
+    private void DisplayMessage(string message)
     {
-        if (state != BattleState.TURN || attacker != playerUnit) return;
+        dialogueText.text = message;
+    }
 
-        playerMove = UnitMoves.Move.ATTACK;
-        enemyMove = enemyUnit.ChooseMove(playerUnit, lastEnemyMove, lastPlayerMove);
-        state = BattleState.PLAYOUT;
-        StartCoroutine(nameof(PlayOutTurn));
+    private void ClampPosition(Transform obj)
+    {
+        Vector3 pos = Camera.main.WorldToViewportPoint(obj.position);
+        pos.x = Mathf.Clamp01(pos.x);
+        pos.y = Mathf.Clamp01(pos.y);
+        obj.position = Camera.main.ViewportToWorldPoint(pos);
     }
 }

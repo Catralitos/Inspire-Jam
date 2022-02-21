@@ -6,6 +6,7 @@ public class TestEnemy : Enemy
 {
     public override UnitMoves.Move ChooseMove(Player playerUnit, UnitMoves.Move lastMove, UnitMoves.Move lastPlayerMove)
     {
-        return UnitMoves.Move.DEFEND;
+        int aux = Random.Range(0, 2); 
+        return aux % 2 == 0 ? UnitMoves.Move.ATTACK : UnitMoves.Move.DEFEND;
     }
 }

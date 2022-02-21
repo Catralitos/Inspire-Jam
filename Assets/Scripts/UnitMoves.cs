@@ -52,21 +52,18 @@ public class UnitMoves : MonoBehaviour
                 return;
             }
             int defense = targetMove == Move.DEFEND ? target.defense * 2 : target.defense;
-            int isCritical = Random.Range(2, 4);
-            int damage = Mathf.RoundToInt(
+            int isCritical = Random.Range(1, 3);
+            /*int damage = Mathf.RoundToInt(
                 ((((((2 * level) / 5) + 2) * power * (performer.attack / defense)) / 50) + 2.0f) *
-                (isCritical * 0.5f) * badge);
+                (isCritical * 0.5f) * badge);*/
+            int damage = 4 * isCritical / defense;
             target.TakeDamage(damage);
             DisplayMessage(performer.unitName + " attack dealt " + damage + " to " + target.unitName + ".");
-            Debug.Log(performer.unitName + " attack dealt " + damage + " to " + target.unitName + ".");
-
         }
         if (performerMove == Move.DEFEND)
         {
             //do nothing, cause if defense is already handled in attack
             DisplayMessage(performer.unitName + " defends.");
-            Debug.Log(performer.unitName + " defends.");
-
         }
     }
 

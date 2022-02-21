@@ -353,15 +353,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Test Enemy
-  maxHp: 326
-  currentHp: 326
-  attack: 238
-  specialAttack: 148
-  defense: 175
-  specialDefense: 157
-  speed: 188
-  evasion: 100
-  accuracy: 100
+  maxHp: 10
+  currentHp: 10
+  attack: 1
+  specialAttack: 1
+  defense: 2
+  specialDefense: 1
+  speed: 5
+  evasion: 1
+  accuracy: 1
   fireDamage: 1
   iceDamage: 1
   waterDamage: 1
@@ -1542,8 +1542,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 221915500}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -3080,15 +3079,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Player
-  maxHp: 326
-  currentHp: 326
-  attack: 238
-  specialAttack: 148
-  defense: 175
-  specialDefense: 157
-  speed: 188
-  evasion: 100
-  accuracy: 100
+  maxHp: 10
+  currentHp: 10
+  attack: 1
+  specialAttack: 1
+  defense: 2
+  specialDefense: 1
+  speed: 10
+  evasion: 1
+  accuracy: 1
   fireDamage: 1
   iceDamage: 1
   waterDamage: 1

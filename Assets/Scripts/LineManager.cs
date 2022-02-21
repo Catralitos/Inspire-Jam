@@ -6,45 +6,54 @@ using UnityEngine;
 
 public class LineManager : MonoBehaviour
 {
+    [HideInInspector] public static LineManager Instance { get; private set; }
+
+    public void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.LogWarning("Multiple line managers present in scene! Destroying...");
+            Destroy(gameObject);
+        }
+    }
+    
     private Vector3 loc;
     private BattleSystem battleSystem;
     public LayerMask layerMask;
 
     public Transform gestureOnScreenPrefab;
 
-    private List<Gesture> trainingSet = new List<Gesture>();
+    private List<Gesture> _trainingSet = new List<Gesture>();
 
-    private List<Point> points = new List<Point>();
-    private int strokeId = -1;
+    private List<Point> _points = new List<Point>();
+    private int _strokeId = -1;
 
-    private Vector3 virtualKeyPosition = Vector2.zero;
-    private Rect drawArea;
+    private Vector3 _virtualKeyPosition = Vector2.zero;
+    private Rect _drawArea;
 
-    private int vertexCount = 0;
+    private int _vertexCount = 0;
 
-    private List<LineRenderer> gestureLinesRenderer = new List<LineRenderer>();
-    private LineRenderer currentGestureLineRenderer;
+    private List<LineRenderer> _gestureLinesRenderer = new List<LineRenderer>();
+    private LineRenderer _currentGestureLineRenderer;
 
     //GUI
-    private string message;
-    private bool recognized;
-    private string newGestureName = "";
+    private string _message;
+    private bool _recognized;
+    private string _newGestureName = "";
 
     private void Start()
     {
         battleSystem = BattleSystem.Instance;
         //TODO possivelmente mudar isto para um RECT de UI
-        drawArea = new Rect(0, 0, Screen.width, Screen.height);
+        _drawArea = new Rect(0, 0, Screen.width, Screen.height);
 
-        //Load pre-made gestures
-        /*TextAsset[] gesturesXml = Resources.LoadAll<TextAsset>("GestureSet/10-stylus-MEDIUM/");
+        TextAsset[] gesturesXml = Resources.LoadAll<TextAsset>("Moves");
         foreach (TextAsset gestureXml in gesturesXml)
-            trainingSet.Add(GestureIO.ReadGestureFromXML(gestureXml.text));
-
-        //Load user custom gestures
-        string[] filePaths = Directory.GetFiles(Application.persistentDataPath, "*.xml");
-        foreach (string filePath in filePaths)
-            trainingSet.Add(GestureIO.ReadGestureFromFile(filePath));*/
+            _trainingSet.Add(GestureIO.ReadGestureFromXML(gestureXml.text));
     }
 
     private void Update()
@@ -53,89 +62,101 @@ public class LineManager : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            virtualKeyPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
+            _virtualKeyPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
         }
 
-        if (drawArea.Contains(virtualKeyPosition))
+        if (_drawArea.Contains(_virtualKeyPosition))
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (recognized)
+                if (_recognized)
                 {
-                    recognized = false;
-                    strokeId = -1;
+                    _recognized = false;
+                    _strokeId = -1;
 
-                    points.Clear();
+                    _points.Clear();
 
-                    foreach (LineRenderer lineRenderer in gestureLinesRenderer)
+                    foreach (LineRenderer lineRenderer in _gestureLinesRenderer)
                     {
                         lineRenderer.SetVertexCount(0);
                         Destroy(lineRenderer.gameObject);
                     }
 
-                    gestureLinesRenderer.Clear();
+                    _gestureLinesRenderer.Clear();
                 }
 
-                ++strokeId;
+                ++_strokeId;
 
                 Transform tmpGesture =
                     Instantiate(gestureOnScreenPrefab, transform.position, transform.rotation) as Transform;
-                currentGestureLineRenderer = tmpGesture.GetComponent<LineRenderer>();
+                _currentGestureLineRenderer = tmpGesture.GetComponent<LineRenderer>();
                 //Selection.activeGameObject = tmpGesture.gameObject;
 
-                gestureLinesRenderer.Add(currentGestureLineRenderer);
+                _gestureLinesRenderer.Add(_currentGestureLineRenderer);
 
-                vertexCount = 0;
+                _vertexCount = 0;
             }
         }
 
         if (Input.GetMouseButton(0))
         {
-            points.Add(new Point(virtualKeyPosition.x, -virtualKeyPosition.y, strokeId));
+            _points.Add(new Point(_virtualKeyPosition.x, -_virtualKeyPosition.y, _strokeId));
 
-            currentGestureLineRenderer.SetVertexCount(++vertexCount);
-            currentGestureLineRenderer.SetPosition(vertexCount - 1,
-                Camera.main.ScreenToWorldPoint(new Vector3(virtualKeyPosition.x, virtualKeyPosition.y, 10)));
+            _currentGestureLineRenderer.SetVertexCount(++_vertexCount);
+            _currentGestureLineRenderer.SetPosition(_vertexCount - 1,
+                Camera.main.ScreenToWorldPoint(new Vector3(_virtualKeyPosition.x, _virtualKeyPosition.y, 10)));
         }
     }
 
-    public void TryRecognize()
+    public string TryRecognize()
     {
-        if (points.Count <= 0)
-            return;
+        if (_points.Count <= 0)
+            return "";
 
-        if (recognized)
+        if (_recognized)
             ClearLine();
 
-        recognized = true;
+        _recognized = true;
 
-        Gesture candidate = new Gesture(points.ToArray());
+        Gesture candidate = new Gesture(_points.ToArray());
 
-        Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
+        Result gestureResult = PointCloudRecognizer.Classify(candidate, _trainingSet.ToArray());
 
         if (gestureResult.Score < .75f)
         {
             ClearLine();
-            return;
+            return "";
+        }
+        
+        if (gestureResult.GestureClass == "Attack")
+        {
+            if (_recognized) ClearLine();
+            return "Attack";
         }
 
-        //TODO reconhecer gestos aqui
+        if (gestureResult.GestureClass == "Defense")
+        {
+            if (_recognized) ClearLine();
+            return "Defense";
+        }
+
+        return "";
     }
 
 
     public void ClearLine()
     {
-        recognized = false;
-        strokeId = -1;
+        _recognized = false;
+        _strokeId = -1;
 
-        points.Clear();
+        _points.Clear();
 
-        foreach (LineRenderer lineRenderer in gestureLinesRenderer)
+        foreach (LineRenderer lineRenderer in _gestureLinesRenderer)
         {
             lineRenderer.positionCount = 0;
             Destroy(lineRenderer.gameObject);
         }
 
-        gestureLinesRenderer.Clear();
+        _gestureLinesRenderer.Clear();
     }
 }
