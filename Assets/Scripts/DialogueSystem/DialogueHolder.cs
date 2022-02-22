@@ -12,30 +12,66 @@ namespace DialogueSystem
         public TextMeshProUGUI dialogBox;
         public Image leftPortrait;
         public Image rightPortrait;
+        public bool finished { get; private set; }
 
+        private int index;
+
+        [Header("Text options")]
+        [SerializeField] private Color textColor;
+        [SerializeField] private Font textFont;
+
+        [Header("Time parameters")]
+        [SerializeField] private float delay;
 
         public List<DialogueLine> dialogueLines;
         
         private void Awake()
         {
-            StartCoroutine(dialogueSequence());
+            index = 0;
+            leftPortrait.sprite = dialogueLines[index].leftSprite;
+            rightPortrait.sprite = dialogueLines[index].rightSprite;
+            dialogBox.text = "";
         }
-        private IEnumerator dialogueSequence()
-        {
-            for(int i = 0; i < transform.childCount; i++)
-            {
-                Deactivate();
-                transform.GetChild(i).gameObject.SetActive(true);
-                //yield return new WaitUntil(()=> transform.GetChild(i).GetComponent<DialogueLine>().finished);
-            }
 
-            yield return null;
-        }
-        private void Deactivate()
+        private void Update()
         {
-            for (int i = 0; i < transform.childCount; i++)
+            if (Input.GetMouseButtonDown(0))
             {
-                transform.GetChild(i).gameObject.SetActive(false);
+                if (dialogBox.text == dialogueLines[index].line)
+                {
+                    NextLine();
+                }
+                else
+                {
+                    StopAllCoroutines();
+                    dialogBox.text = dialogueLines[index].line;
+                }
+            }
+        }
+
+        void NextLine()
+        {
+            if (index < dialogueLines.Count - 1)
+            {
+                index++;
+                leftPortrait.sprite = dialogueLines[index].leftSprite;
+                rightPortrait.sprite = dialogueLines[index].rightSprite;
+                dialogBox.text = "";
+                StartCoroutine(WriteText());
+
+            }
+            else
+            {
+                if (index == dialogueLines.Count - 1)
+                    finished = true;
+            }
+        }
+        protected IEnumerator WriteText()
+        {
+            for (int i = 0; i < dialogueLines[index].line.Length; i++)
+            {
+                dialogBox.text += dialogueLines[index].line[i];
+                yield return new WaitForSeconds(delay);
             }
         }
     }
