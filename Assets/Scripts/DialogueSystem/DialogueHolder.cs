@@ -33,6 +33,11 @@ namespace DialogueSystem
             dialogBox.text = "";
         }
 
+        private void Start()
+        {
+            StartCoroutine(WriteText());
+        }
+
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
