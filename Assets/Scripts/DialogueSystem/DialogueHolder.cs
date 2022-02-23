@@ -1,28 +1,82 @@
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace DialogueSystem
 {
     public class DialogueHolder : MonoBehaviour
     {
+
+        public TextMeshProUGUI dialogBox;
+        public Image leftPortrait;
+        public Image rightPortrait;
+        public bool finished { get; private set; }
+
+        private int index;
+
+        [Header("Text options")]
+        [SerializeField] private Color textColor;
+        [SerializeField] private Font textFont;
+
+        [Header("Time parameters")]
+        [SerializeField] private float delay;
+
+        public List<DialogueLine> dialogueLines;
+        
         private void Awake()
         {
-            StartCoroutine(dialogueSequence());
+            index = 0;
+            leftPortrait.sprite = dialogueLines[index].leftSprite;
+            rightPortrait.sprite = dialogueLines[index].rightSprite;
+            dialogBox.text = "";
         }
-        private IEnumerator dialogueSequence()
+
+        private void Start()
         {
-            for(int i = 0; i < transform.childCount; i++)
+            StartCoroutine(WriteText());
+        }
+
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
             {
-                Deactivate();
-                transform.GetChild(i).gameObject.SetActive(true);
-                yield return new WaitUntil(()=> transform.GetChild(i).GetComponent<DialogueLine>().finished);
+                if (dialogBox.text == dialogueLines[index].line)
+                {
+                    NextLine();
+                }
+                else
+                {
+                    StopAllCoroutines();
+                    dialogBox.text = dialogueLines[index].line;
+                }
             }
         }
-        private void Deactivate()
+
+        void NextLine()
         {
-            for (int i = 0; i < transform.childCount; i++)
+            if (index < dialogueLines.Count - 1)
             {
-                transform.GetChild(i).gameObject.SetActive(false);
+                index++;
+                leftPortrait.sprite = dialogueLines[index].leftSprite;
+                rightPortrait.sprite = dialogueLines[index].rightSprite;
+                dialogBox.text = "";
+                StartCoroutine(WriteText());
+
+            }
+            else
+            {
+                if (index == dialogueLines.Count - 1)
+                    finished = true;
+            }
+        }
+        protected IEnumerator WriteText()
+        {
+            for (int i = 0; i < dialogueLines[index].line.Length; i++)
+            {
+                dialogBox.text += dialogueLines[index].line[i];
+                yield return new WaitForSeconds(delay);
             }
         }
     }
