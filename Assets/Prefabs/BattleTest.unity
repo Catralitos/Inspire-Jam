@@ -353,19 +353,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Test Enemy
+  currentType: 0
   maxHp: 10
-  currentHp: 10
   attack: 1
   specialAttack: 1
   defense: 2
   specialDefense: 1
   speed: 5
-  evasion: 1
-  accuracy: 1
-  fireDamage: 1
-  iceDamage: 1
-  waterDamage: 1
-  thunderDamage: 1
+  evasion: 0
+  accuracy: 0
+  currentHp: 10
+  currentAttack: 0
+  currentSpecialAttack: 0
+  currentDefense: 0
+  currentSpecialDefense: 0
+  currentSpeed: 0
+  currentEvasion: 0
+  currentAccuracy: 0
 --- !u!1 &87679434
 GameObject:
   m_ObjectHideFlags: 0
@@ -2251,11 +2255,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77869fc9171ac3546b2504d4d3ff7428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: {fileID: 1097929144}
-  level: 100
-  power: 80
-  badge: 8
-  baseAccuracy: 80
+  criticalHitMultiplier: 1.5
+  criticalHitChance: 0
+  debuffPercentage: 0.2
 --- !u!1 &1699539620
 GameObject:
   m_ObjectHideFlags: 0
@@ -3079,19 +3081,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Player
+  currentType: 0
   maxHp: 10
-  currentHp: 10
   attack: 1
   specialAttack: 1
   defense: 2
   specialDefense: 1
   speed: 10
-  evasion: 1
-  accuracy: 1
-  fireDamage: 1
-  iceDamage: 1
-  waterDamage: 1
-  thunderDamage: 1
+  evasion: 100
+  accuracy: 100
+  currentHp: 10
+  currentAttack: 0
+  currentSpecialAttack: 0
+  currentDefense: 0
+  currentSpecialDefense: 0
+  currentSpeed: 0
+  currentEvasion: 0
+  currentAccuracy: 0
 --- !u!212 &2007717667
 SpriteRenderer:
   m_ObjectHideFlags: 0
