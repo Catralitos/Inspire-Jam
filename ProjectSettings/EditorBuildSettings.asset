@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BrushTest.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
@@ -29,4 +29,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WinWinDialogue.unity
     guid: f8a7e829968cf492c85b8863db5b82b4
+  - enabled: 1
+    path: Assets/Scenes/Battle1.unity
+    guid: eca835f814cf04ef48273251cfbe8ef1
+  - enabled: 1
+    path: Assets/Scenes/Battle2.unity
+    guid: a25420e2887cf4e76a1427e9b6caf0c3
+  - enabled: 1
+    path: Assets/Scenes/Battle3.unity
+    guid: 159833ccf84404f5d9160ee5b8c3bb28
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 314c9e1c23da245f1963cdce298b8c1e
   m_configObjects: {}

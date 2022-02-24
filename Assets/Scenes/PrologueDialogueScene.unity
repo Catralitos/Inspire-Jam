@@ -681,6 +681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79acbc784fb974b0a8ac6a28b3ae3017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextScene: Battle1
   dialogBox: {fileID: 1369635746}
   leftPortrait: {fileID: 1603759541}
   rightPortrait: {fileID: 1645150597}

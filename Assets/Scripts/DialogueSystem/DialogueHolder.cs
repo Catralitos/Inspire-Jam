@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace DialogueSystem
 {
     public class DialogueHolder : MonoBehaviour
     {
-
+        [SerializeField] private string nextScene;
         public TextMeshProUGUI dialogBox;
         public Image leftPortrait;
         public Image rightPortrait;
@@ -68,7 +69,11 @@ namespace DialogueSystem
             else
             {
                 if (index == dialogueLines.Count - 1)
+                {
                     finished = true;
+                    SceneManager.LoadScene(sceneName: nextScene);
+                }
+
             }
         }
         protected IEnumerator WriteText()
