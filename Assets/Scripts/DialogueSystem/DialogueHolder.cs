@@ -71,7 +71,8 @@ namespace DialogueSystem
                 if (index == dialogueLines.Count - 1)
                 {
                     finished = true;
-                    SceneManager.LoadScene(sceneName: nextScene);
+                    /*SceneManager.LoadScene(sceneName: nextScene);*/
+                    GameManager.Instance.LoadNextScene(nextScene);
                 }
 
             }
