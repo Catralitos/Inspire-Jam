@@ -11,12 +11,14 @@ namespace Combat
             Attack,
             Defend,
             Heal,
-            Counter,
-            Vampire,
-            HealingDefense,
             Meat,
             Fish,
             Vegetables,
+
+            //estas sao combinaçoes secretas
+            Counter,
+            Vampire,
+            HealingDefense,
             PhysicalMeat,
             PhysicalFish,
             PhysicalVegetables,
@@ -26,6 +28,8 @@ namespace Combat
             DefendMeat,
             DefendFish,
             DefendVegetables,
+
+            //só para bosses
             SwitchMeat,
             SwitchFish,
             SwitchVegetables,
@@ -82,31 +86,59 @@ namespace Combat
 
             //Evasion and crits
             //TODO rever o willHit
-            bool willHit = performer.accuracy / target.evasion > 0.5;
+            bool willHit = performer.accuracy / target.evasion > 0.5f;
             float criticalRoll = Random.Range(0f, 1f);
             float criticalDamage = criticalRoll >= criticalHitChance ? 1 : criticalHitMultiplier;
 
             //Damage formulas
             int physicalDefense = targetMove == Move.Defend ? target.currentDefense * 2 : target.currentDefense;
-            physicalDefense = targetMove == Move.HealingDefense
+            physicalDefense = targetMove == Move.HealingDefense || targetMove == Move.DefendMeat ||
+                              targetMove == Move.DefendFish || targetMove == Move.DefendVegetables
                 ? Mathf.RoundToInt(target.currentDefense * 1.5f)
                 : target.currentDefense;
 
             int specialDefense = targetMove == Move.Defend
                 ? target.currentSpecialDefense * 2
                 : target.currentSpecialDefense;
-            specialDefense = targetMove == Move.HealingDefense
+            specialDefense = targetMove == Move.HealingDefense || targetMove == Move.DefendMeat ||
+                             targetMove == Move.DefendFish || targetMove == Move.DefendVegetables
                 ? Mathf.RoundToInt(target.currentSpecialDefense * 1.5f)
                 : target.currentSpecialDefense;
 
             int physicalDamage = Mathf.RoundToInt(performer.currentAttack * performer.currentAttack * criticalDamage /
                                                   physicalDefense);
             int specialDamage =
-                Mathf.RoundToInt(performer.currentAttack * performer.currentAttack * criticalDamage / specialDefense);
+                Mathf.RoundToInt(performer.currentSpecialAttack * performer.currentSpecialAttack * criticalDamage /
+                                 specialDefense);
             int toHeal = performer.currentSpecialAttack * 2;
 
+            if (performerMove == Move.HealingDefense)
+            {
+                toHeal = Mathf.RoundToInt(performer.currentSpecialAttack * 1.5f);
+            }
+            else if (performerMove == Move.DefendMeat)
+            {
+                if (performer.meatMultiplier > 0)
+                {
+                    performer.meatMultiplier = 0.5f;
+                }
+            }
+            else if (performerMove == Move.DefendFish)
+            {
+                if (performer.fishMultiplier > 0)
+                {
+                    performer.fishMultiplier = 0.5f;
+                }
+            }
+            else if (performerMove == Move.DefendVegetables)
+            {
+                if (performer.vegetablesMultiplier > 0)
+                {
+                    performer.vegetablesMultiplier = 0.5f;
+                }
+            }
 
-            switch (targetMove)
+            switch (performerMove)
             {
                 case Move.Attack:
                     if (!willHit)
@@ -156,7 +188,7 @@ namespace Combat
                 case Move.Meat:
                     int meatDamage = Mathf.RoundToInt(specialDamage * target.meatMultiplier);
                     target.TakeDamage(meatDamage);
-                    if (target.currentType == Unit.Type.Meat)
+                    if (target.meatMultiplier < 0)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + " performs a meat attack! But " +
                                                      target.unitName + " absorbs it and heals " + meatDamage +
@@ -172,7 +204,7 @@ namespace Combat
                 case Move.Fish:
                     int fishDamage = Mathf.RoundToInt(specialDamage * target.fishMultiplier);
                     target.TakeDamage(fishDamage);
-                    if (target.currentType == Unit.Type.Fish)
+                    if (target.fishMultiplier < 0)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + " performs a fish attack! But " +
                                                      target.unitName + " absorbs it and heals " + fishDamage +
@@ -188,7 +220,7 @@ namespace Combat
                 case Move.Vegetables:
                     int vegetableDamage = Mathf.RoundToInt(specialDamage * target.vegetablesMultiplier);
                     target.TakeDamage(vegetableDamage);
-                    if (target.currentType == Unit.Type.Vegetables)
+                    if (target.vegetablesMultiplier < 0)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + " performs a vegetable attack! But " +
                                                      target.unitName + " absorbs it and heals " + vegetableDamage +
@@ -204,7 +236,7 @@ namespace Combat
                 case Move.PhysicalMeat:
                     int physicalMeatDamage = Mathf.RoundToInt(physicalDamage * target.meatMultiplier);
                     target.TakeDamage(physicalMeatDamage);
-                    if (target.currentType == Unit.Type.Meat)
+                    if (target.meatMultiplier < 0)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + " performs a physical meat attack! But " +
                                                      target.unitName + " absorbs it and heals " + physicalMeatDamage +
@@ -220,7 +252,7 @@ namespace Combat
                 case Move.PhysicalFish:
                     int physicalFishDamage = Mathf.RoundToInt(physicalDamage * target.fishMultiplier);
                     target.TakeDamage(physicalFishDamage);
-                    if (target.currentType == Unit.Type.Fish)
+                    if (target.fishMultiplier < 0)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + " performs a physical fish attack! But " +
                                                      target.unitName + " absorbs it and heals " + physicalFishDamage +
@@ -236,9 +268,10 @@ namespace Combat
                 case Move.PhysicalVegetables:
                     int physicalVegetableDamage = Mathf.RoundToInt(physicalDamage * target.vegetablesMultiplier);
                     target.TakeDamage(physicalVegetableDamage);
-                    if (target.currentType == Unit.Type.Vegetables)
+                    if (target.vegetablesMultiplier < 0)
                     {
-                        _battleSystem.DisplayMessage(performer.unitName + " performs a physical vegetable attack! But " +
+                        _battleSystem.DisplayMessage(performer.unitName +
+                                                     " performs a physical vegetable attack! But " +
                                                      target.unitName + " absorbs it and heals " +
                                                      physicalVegetableDamage + " HP...");
                     }
@@ -250,16 +283,52 @@ namespace Combat
 
                     break;
                 case Move.AbsorbMeat:
+                    if (target.currentSpeed > performer.currentSpeed)
+                    {
+                        _battleSystem.DisplayMessage(performer.unitName + " tries to absorb a meat attack! But " +
+                                                   target.unitName + " has already attacked...");
+                    }
+                    else
+                    {
+                        performer.meatMultiplier = -1.0f;
+                        _battleSystem.DisplayMessage(performer.unitName + " will absorb a meat attack!");
+                    }
                     break;
                 case Move.AbsorbFish:
+                    if (target.currentSpeed > performer.currentSpeed)
+                    {
+                        _battleSystem.DisplayMessage(performer.unitName + " tries to absorb a fish attack! But " +
+                                                     target.unitName + " has already attacked...");
+                    }
+                    else
+                    {
+                        performer.fishMultiplier = -1.0f;
+                        _battleSystem.DisplayMessage(performer.unitName + " will absorb a fish attack!");
+                    }
                     break;
                 case Move.AbsorbVegetables:
+                    if (target.currentSpeed > performer.currentSpeed)
+                    {
+                        _battleSystem.DisplayMessage(performer.unitName + " tries to absorb a vegetable attack! But " +
+                                                     target.unitName + " has already attacked...");
+                    }
+                    else
+                    {
+                        performer.vegetablesMultiplier = -1.0f;
+                        _battleSystem.DisplayMessage(performer.unitName + " will absorb a vegetable attack!");
+                    }
                     break;
                 case Move.DefendMeat:
+                    //defesa tratada em cima
+                    _battleSystem.DisplayMessage(performer.unitName + " will defends with meat.");
                     break;
                 case Move.DefendFish:
+                    //defesa tratada em cima
+                    _battleSystem.DisplayMessage(performer.unitName + " defends with fish.");
                     break;
                 case Move.DefendVegetables:
+                    //defesa tratada em cima
+                    _battleSystem.DisplayMessage(performer.unitName + " defends with vegetables.");
                     break;
                 case Move.SwitchMeat:
                     performer.SetType(Unit.Type.Meat);
@@ -274,32 +343,72 @@ namespace Combat
                     _battleSystem.DisplayMessage(performer.unitName + " became a vegetable afficionado!");
                     break;
                 case Move.AttackUp:
+                    performer.currentAttack += Mathf.RoundToInt(performer.currentAttack * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just raised their attack!");
                     break;
                 case Move.AttackDown:
+                    target.currentAttack += Mathf.RoundToInt(target.currentAttack * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
+                                                 "'s attack!");
                     break;
                 case Move.SpecialAttackUp:
+                    performer.currentSpecialAttack +=
+                        Mathf.RoundToInt(performer.currentSpecialAttack * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just raised their special attack!");
                     break;
                 case Move.SpecialAttackDown:
+                    target.currentSpecialAttack += Mathf.RoundToInt(target.currentSpecialAttack * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
+                                                 "'s special attack!");
                     break;
                 case Move.DefenseUp:
+                    performer.currentDefense += Mathf.RoundToInt(performer.currentDefense * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just raised their defense!");
                     break;
                 case Move.DefenseDown:
+                    target.currentDefense += Mathf.RoundToInt(target.currentDefense * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
+                                                 "'s defense!");
                     break;
                 case Move.SpecialDefenseUp:
+                    performer.currentSpecialDefense +=
+                        Mathf.RoundToInt(performer.currentSpecialDefense * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just raised their special defense!");
                     break;
                 case Move.SpecialDefenseDown:
+                    target.currentSpecialDefense += Mathf.RoundToInt(target.currentSpecialDefense * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
+                                                 "'s special defense!");
                     break;
                 case Move.SpeedUp:
+                    performer.currentSpeed +=
+                        Mathf.RoundToInt(performer.currentSpeed * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just raised their speed!");
                     break;
                 case Move.SpeedDown:
+                    target.currentSpeed += Mathf.RoundToInt(target.currentSpeed * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
+                                                 "'s speed!");
                     break;
                 case Move.EvasionUp:
+                    performer.currentEvasion +=
+                        Mathf.RoundToInt(performer.currentEvasion * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just raised their evasion!");
                     break;
                 case Move.EvasionDown:
+                    target.currentEvasion += Mathf.RoundToInt(target.currentEvasion * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
+                                                 "'s evasion!");
                     break;
                 case Move.AccuracyUp:
+                    performer.currentAccuracy +=
+                        Mathf.RoundToInt(performer.currentAccuracy * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just raised their accuracy!");
                     break;
                 case Move.AccuracyDown:
+                    target.currentAccuracy += Mathf.RoundToInt(target.currentAccuracy * debuffPercentage);
+                    _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
+                                                 "'s accuracy!");
                     break;
                 default:
                     _battleSystem.DisplayMessage(performer.unitName + " did nothing...");

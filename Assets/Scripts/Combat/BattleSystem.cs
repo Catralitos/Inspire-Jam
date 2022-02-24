@@ -170,6 +170,9 @@ namespace Combat
 
             lastPlayerMove = playerMove;
             lastEnemyMove = enemyMove;
+            //tenho que fazer isto para dar reset dos buffs no caso do defend e absorb
+            playerUnit.SetType(playerUnit.currentType);
+            enemyUnit.SetType(enemyUnit.currentType);
 
             state = BattleState.TURN;
             DisplayMessage("Paint an action! Press space to finish, and R to clear the canvas.");
