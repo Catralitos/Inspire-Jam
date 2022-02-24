@@ -226,8 +226,8 @@ MonoBehaviour:
   defense: 2
   specialDefense: 1
   speed: 5
-  evasion: 0
-  accuracy: 0
+  evasion: 10
+  accuracy: 10
   currentHp: 10
   currentAttack: 0
   currentSpecialAttack: 0

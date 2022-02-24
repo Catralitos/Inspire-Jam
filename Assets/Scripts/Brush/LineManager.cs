@@ -21,7 +21,7 @@ namespace Brush
                 Destroy(gameObject);
             }
         }
-    
+
         private Vector3 loc;
         private BattleSystem battleSystem;
         public LayerMask layerMask;
@@ -45,6 +45,10 @@ namespace Brush
         private string _message;
         private bool _recognized;
         private string _newGestureName = "";
+
+
+        [Header("Em dúvida, 75%")] [Range(0f, 1f)]
+        public float matchingPercentage = 0.75f;
 
         private void Start()
         {
@@ -123,13 +127,17 @@ namespace Brush
 
             Result gestureResult = PointCloudRecognizer.Classify(candidate, _trainingSet.ToArray());
 
-            if (gestureResult.Score < .75f)
+            if (gestureResult.Score < matchingPercentage)
             {
                 ClearLine();
                 return "";
             }
-        
-            if (gestureResult.GestureClass == "Attack")
+
+            if (_recognized) ClearLine();
+            Debug.Log(gestureResult.GestureClass);
+            return gestureResult.GestureClass.ToString();
+
+            /*if (gestureResult.GestureClass == "Attack")
             {
                 if (_recognized) ClearLine();
                 return "Attack";
@@ -141,7 +149,7 @@ namespace Brush
                 return "Defense";
             }
 
-            return "";
+            return "";*/
         }
 
 

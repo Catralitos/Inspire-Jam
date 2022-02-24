@@ -18,7 +18,7 @@ namespace Combat
             //estas sao combinaçoes secretas
             Counter,
             Vampire,
-            HealingDefense,
+            HealingDefend,
             PhysicalMeat,
             PhysicalFish,
             PhysicalVegetables,
@@ -92,7 +92,7 @@ namespace Combat
 
             //Damage formulas
             int physicalDefense = targetMove == Move.Defend ? target.currentDefense * 2 : target.currentDefense;
-            physicalDefense = targetMove == Move.HealingDefense || targetMove == Move.DefendMeat ||
+            physicalDefense = targetMove == Move.HealingDefend || targetMove == Move.DefendMeat ||
                               targetMove == Move.DefendFish || targetMove == Move.DefendVegetables
                 ? Mathf.RoundToInt(target.currentDefense * 1.5f)
                 : target.currentDefense;
@@ -100,7 +100,7 @@ namespace Combat
             int specialDefense = targetMove == Move.Defend
                 ? target.currentSpecialDefense * 2
                 : target.currentSpecialDefense;
-            specialDefense = targetMove == Move.HealingDefense || targetMove == Move.DefendMeat ||
+            specialDefense = targetMove == Move.HealingDefend || targetMove == Move.DefendMeat ||
                              targetMove == Move.DefendFish || targetMove == Move.DefendVegetables
                 ? Mathf.RoundToInt(target.currentSpecialDefense * 1.5f)
                 : target.currentSpecialDefense;
@@ -112,7 +112,7 @@ namespace Combat
                                  specialDefense);
             int toHeal = performer.currentSpecialAttack * 2;
 
-            if (performerMove == Move.HealingDefense)
+            if (performerMove == Move.HealingDefend)
             {
                 toHeal = Mathf.RoundToInt(performer.currentSpecialAttack * 1.5f);
             }
@@ -179,7 +179,7 @@ namespace Combat
                     _battleSystem.DisplayMessage(performer.unitName + " stole " + aux + " HP from " + target.unitName +
                                                  "!");
                     break;
-                case Move.HealingDefense:
+                case Move.HealingDefend:
                     //Diminuir a defesa já tá feito em cima, só falta diminuir o heal
                     performer.HealDamage(toHeal / 2);
                     _battleSystem.DisplayMessage(performer.unitName + " defended and healed " +

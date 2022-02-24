@@ -100,6 +100,7 @@ namespace Combat
                     //ClampPosition(brush);
 
                     string move = LineManager.Instance.TryRecognize();
+                    Debug.Log("No battle system " + move);
                     if (move != "") ChooseMove(move);
                     else StartCoroutine(ActionNotRecognized());
                 }
@@ -117,19 +118,11 @@ namespace Combat
         private void ChooseMove(string move)
         {
             if (state != BattleState.TURN || move == "") return;
-
-            if (move == "Attack")
-            {
-                playerMove = UnitMoves.Move.Attack;
-                enemyMove = enemyUnit.ChooseMove(playerUnit, lastEnemyMove, lastPlayerMove);
-                StartCoroutine(nameof(PlayOutTurn));
-            }
-            else if (move == "Defense")
-            {
-                playerMove = UnitMoves.Move.Defend;
-                enemyMove = enemyUnit.ChooseMove(playerUnit, lastEnemyMove, lastPlayerMove);
-                StartCoroutine(nameof(PlayOutTurn));
-            }
+            
+            playerMove = (UnitMoves.Move) Enum.Parse(typeof(UnitMoves.Move), move);
+            Debug.Log("No choose move do battle system " + playerMove);
+            enemyMove = enemyUnit.ChooseMove(playerUnit, lastEnemyMove, lastPlayerMove);
+            StartCoroutine(nameof(PlayOutTurn));
         }
 
         private IEnumerator PlayOutTurn()
