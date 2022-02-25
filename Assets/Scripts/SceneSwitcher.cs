@@ -5,32 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class SceneSwitcher : MonoBehaviour
 {
-    public void LoseGame()
+    public void Dialogue1()
     {
-        SceneManager.LoadScene(sceneName: "LoseDialogue");
+        SceneManager.LoadScene(sceneName: "Dialogue1");
     }
-    public void WinGame()
+    public void Dialogue2()
     {
-        SceneManager.LoadScene(sceneName: "WinDialogue");
+        SceneManager.LoadScene(sceneName: "Dialogue2");
     }
-    public void WinGameTwice()
+    public void Dialogue3()
     {
-        SceneManager.LoadScene(sceneName: "WinWinDialogue");
+        SceneManager.LoadScene(sceneName: "Dialogue3");
     }
-    public void LoseGameTwice()
+    public void GameOver1()
     {
-        SceneManager.LoadScene(sceneName: "LoseLoseDialogue");
+        SceneManager.LoadScene(sceneName: "GameOver1");
     }
-    public void WinLoseGame()
+    public void GameOver2()
     {
-        SceneManager.LoadScene(sceneName: "WinLoseDialogue");
+        SceneManager.LoadScene(sceneName: "GameOver2");
     }
-    public void LoseWinGame()
+    public void GameOver3()
     {
-        SceneManager.LoadScene(sceneName: "LoseWinDialogue");
-    }
-    public void StartGame()
-    {
-        SceneManager.LoadScene(sceneName: "PrologueDialogueScene");
+        SceneManager.LoadScene(sceneName: "GameOver3");
     }
 }

@@ -353,7 +353,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1859598992}
         m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
-        m_MethodName: LoseGameTwice
+        m_MethodName: GameOver3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -679,7 +679,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1859598992}
         m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
-        m_MethodName: LoseWinGame
+        m_MethodName: Dialogue3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
