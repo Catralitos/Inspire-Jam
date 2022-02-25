@@ -21,7 +21,7 @@ namespace Brush
                 Destroy(gameObject);
             }
         }
-    
+
         private Vector3 loc;
         private BattleSystem battleSystem;
         public LayerMask layerMask;
@@ -46,6 +46,10 @@ namespace Brush
         private bool _recognized;
         private string _newGestureName = "";
 
+
+        [Header("Em dúvida, 75%")] [Range(0f, 1f)]
+        public float matchingPercentage = 0.75f;
+
         private void Start()
         {
             battleSystem = BattleSystem.Instance;
@@ -59,7 +63,7 @@ namespace Brush
 
         private void Update()
         {
-            if (battleSystem.state != BattleState.TURN) return;
+            if (battleSystem.state != BattleState.Turn) return;
 
             if (Input.GetMouseButton(0))
             {
@@ -103,6 +107,8 @@ namespace Brush
             {
                 _points.Add(new Point(_virtualKeyPosition.x, -_virtualKeyPosition.y, _strokeId));
 
+                if (_currentGestureLineRenderer == null) return;
+
                 _currentGestureLineRenderer.SetVertexCount(++_vertexCount);
                 _currentGestureLineRenderer.SetPosition(_vertexCount - 1,
                     Camera.main.ScreenToWorldPoint(new Vector3(_virtualKeyPosition.x, _virtualKeyPosition.y, 10)));
@@ -123,25 +129,14 @@ namespace Brush
 
             Result gestureResult = PointCloudRecognizer.Classify(candidate, _trainingSet.ToArray());
 
-            if (gestureResult.Score < .75f)
+            if (gestureResult.Score < matchingPercentage)
             {
                 ClearLine();
                 return "";
             }
-        
-            if (gestureResult.GestureClass == "Attack")
-            {
-                if (_recognized) ClearLine();
-                return "Attack";
-            }
 
-            if (gestureResult.GestureClass == "Defense")
-            {
-                if (_recognized) ClearLine();
-                return "Defense";
-            }
-
-            return "";
+            if (_recognized) ClearLine();
+            return gestureResult.GestureClass;
         }
 
 

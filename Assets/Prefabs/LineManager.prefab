@@ -47,3 +47,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   gestureOnScreenPrefab: {fileID: 400000, guid: 443fb1f247bd5ae42a0ffaf34c14f3a0, type: 3}
+  matchingPercentage: 0.9

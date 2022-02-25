@@ -38,7 +38,7 @@ namespace Combat
         [HideInInspector] public float vegetablesMultiplier;
         [HideInInspector] public float fishMultiplier;
 
-        public void Start()
+        public void Awake()
         {
             currentHp = maxHp;
             currentAttack = attack;
@@ -56,22 +56,10 @@ namespace Combat
         {
             currentHp = Mathf.Clamp(currentHp - damage, 0, maxHp);
         }
-
-        public void TakeDamage(float damage)
-        {
-            int aux = Mathf.RoundToInt(damage);
-            currentHp = Mathf.Clamp(currentHp - aux, 0, maxHp);
-        }
-
+        
         public void HealDamage(int damage)
         {
             currentHp = Mathf.Clamp(currentHp + damage, 0, maxHp);
-        }
-
-        public void HealDamage(float damage)
-        {
-            int aux = Mathf.RoundToInt(damage);
-            currentHp = Mathf.Clamp(currentHp + aux, 0, maxHp);
         }
 
         public void SetType(Type type)
@@ -103,7 +91,7 @@ namespace Combat
                     vegetablesMultiplier = 2.0f;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+                    break;
             }
         }
     }

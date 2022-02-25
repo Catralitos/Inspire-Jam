@@ -220,14 +220,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Test Enemy
   defaultType: 0
-  maxHp: 10
-  attack: 1
-  specialAttack: 1
-  defense: 2
-  specialDefense: 1
+  maxHp: 100
+  attack: 5
+  specialAttack: 5
+  defense: 5
+  specialDefense: 5
   speed: 5
-  evasion: 0
-  accuracy: 0
+  evasion: 10
+  accuracy: 10
   currentHp: 10
   currentAttack: 0
   currentSpecialAttack: 0
@@ -586,11 +586,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Player
   defaultType: 0
-  maxHp: 10
-  attack: 1
-  specialAttack: 1
-  defense: 2
-  specialDefense: 1
+  maxHp: 100
+  attack: 5
+  specialAttack: 5
+  defense: 5
+  specialDefense: 5
   speed: 10
   evasion: 100
   accuracy: 100
@@ -738,6 +738,10 @@ PrefabInstance:
     - target: {fileID: 4712166991908870465, guid: 44e80681ca6a7e84cb7de5b30282b942, type: 3}
       propertyPath: m_Name
       value: LineManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712166991908870466, guid: 44e80681ca6a7e84cb7de5b30282b942, type: 3}
+      propertyPath: matchingPercentage
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 4712166991908870467, guid: 44e80681ca6a7e84cb7de5b30282b942, type: 3}
       propertyPath: m_RootOrder
@@ -952,6 +956,10 @@ PrefabInstance:
     - target: {fileID: 9088753285191825348, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088753285191825349, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
+      propertyPath: criticalHitChance
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 9088753285191825402, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
       propertyPath: m_Name
