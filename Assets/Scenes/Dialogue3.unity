@@ -572,10 +572,10 @@ MonoBehaviour:
   textFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   delay: 0.1
   dialogueLines:
-  - line: 'Sans: you lost twice'
+  - line: 'Sans: you won all the battles'
     leftSprite: {fileID: 21300000, guid: d82fa09f64d874ba7b95a9d89b8aadc4, type: 3}
     rightSprite: {fileID: 21300000, guid: fd08d21cb05624c3c9e764714f80aefb, type: 3}
-  - line: 'Frisk: ok'
+  - line: 'Frisk: Hek yeah'
     leftSprite: {fileID: 21300000, guid: fd08d21cb05624c3c9e764714f80aefb, type: 3}
     rightSprite: {fileID: 21300000, guid: d82fa09f64d874ba7b95a9d89b8aadc4, type: 3}
 --- !u!114 &1315881946
