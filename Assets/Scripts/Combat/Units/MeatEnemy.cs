@@ -7,14 +7,17 @@ namespace Combat.Units
         public override UnitMoves.Move ChooseMove(Player playerUnit, UnitMoves.Move lastMove,
             UnitMoves.Move lastPlayerMove)
         {
+
+            bool needsHeal = 1.0f * currentHp / maxHp <= healthPercentageToHeal;
+            float x = Random.Range(0.0f, 1.0f);
+
             if (currentSpeed <= speed || currentSpeed <= playerUnit.currentSpeed)
             {
-                float x = Random.Range(0.0f, 1.0f);
                 return x > 0.5 ? UnitMoves.Move.SpeedUp : UnitMoves.Move.SpeedDown;
             }
 
-            if (lastPlayerMove == UnitMoves.Move.Attack || lastPlayerMove == UnitMoves.Move.PhysicalFish ||
-                lastPlayerMove == UnitMoves.Move.PhysicalVegetables)
+            if (!needsHeal && (lastPlayerMove == UnitMoves.Move.Attack || lastPlayerMove == UnitMoves.Move.PhysicalFish ||
+                lastPlayerMove == UnitMoves.Move.PhysicalVegetables))
             {
                 return UnitMoves.Move.Counter;
             }
@@ -24,9 +27,9 @@ namespace Combat.Units
                 return UnitMoves.Move.Attack;
             }
             
-            if (1.0f * currentHp / maxHp <= healthPercentageToHeal)
+            if (needsHeal)
             {
-                return UnitMoves.Move.Heal;
+                return x > 0.5f ? UnitMoves.Move.Vampire : UnitMoves.Move.Heal;
             } 
 
             return UnitMoves.Move.PhysicalMeat;
