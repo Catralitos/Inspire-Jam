@@ -84,7 +84,7 @@ namespace Combat
                 return;
             }
 
-            bool willHit = 1.0f * performer.accuracy / target.evasion * Random.Range(0.0f, 1.0f) > hitPercentage;
+            bool willHit = 1.0f * performer.accuracy / target.evasion * Random.Range(0.0f, 2.0f) > hitPercentage;
             float criticalRoll = Random.Range(0.0f, 1.0f);
             float criticalDamage = criticalRoll < criticalHitChance ? criticalHitMultiplier : 1;
             bool wasCritical = criticalRoll < criticalHitChance;
