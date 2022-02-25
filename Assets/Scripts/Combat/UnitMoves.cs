@@ -84,13 +84,10 @@ namespace Combat
                 return;
             }
 
-            //Evasion and crits
             bool willHit = 1.0f * performer.accuracy / target.evasion * Random.Range(0.0f, 1.0f) > hitPercentage;
             float criticalRoll = Random.Range(0.0f, 1.0f);
             float criticalDamage = criticalRoll < criticalHitChance ? criticalHitMultiplier : 1;
             bool wasCritical = criticalRoll < criticalHitChance;
-
-            //Damage formulas
 
             int physicalDefense;
             if (targetMove == Move.Defend)
@@ -106,8 +103,7 @@ namespace Combat
             {
                 physicalDefense = target.currentDefense;
             }
-
-
+            
             int specialDefense;
             if (targetMove == Move.Defend)
             {
@@ -123,26 +119,11 @@ namespace Combat
                 specialDefense = target.currentSpecialDefense;
             }
 
-            if (performer == _battleSystem.playerUnit) Debug.Log(target.unitName + "'s  defense " + physicalDefense);
-            if (performer == _battleSystem.playerUnit)
-                Debug.Log(target.unitName + "'s special defense " + specialDefense);
-
-
             int physicalDamage = Mathf.RoundToInt(performer.currentAttack * performer.currentAttack * criticalDamage /
                                                   physicalDefense);
-
             int specialDamage =
                 Mathf.RoundToInt(performer.currentSpecialAttack * performer.currentSpecialAttack * criticalDamage /
                                  specialDefense);
-
-            if (performer == _battleSystem.playerUnit)
-                Debug.Log(performer.unitName + "'s physical damage " + physicalDamage);
-            if (performer == _battleSystem.playerUnit)
-            {
-                Debug.Log(performer.unitName + "'s special damage " + specialDamage);
-                Debug.Log(performer.currentSpecialAttack * performer.currentSpecialAttack * criticalDamage /
-                          specialDefense);
-            }
 
             int toHeal = performer.currentSpecialAttack * 2;
 

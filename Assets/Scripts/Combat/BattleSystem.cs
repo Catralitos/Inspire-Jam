@@ -188,7 +188,6 @@ namespace Combat
         private void PlayerAction(bool playerPerformed)
         {
             if (playerPerformed) return;
-            Debug.Log("/////////////////////////////////////////////");
             UnitMoves.Instance.PerformMove(playerMove, enemyMove, playerUnit, enemyUnit);
             enemyHUD.SetHP(enemyUnit.currentHp);
 
@@ -202,7 +201,6 @@ namespace Combat
         private void EnemyAction(bool enemyPerformed)
         {
             if (enemyPerformed) return;
-            Debug.Log("/////////////////////////////////////////////");
             UnitMoves.Instance.PerformMove(enemyMove, playerMove, enemyUnit, playerUnit);
             playerHUD.SetHP(playerUnit.currentHp);
 
