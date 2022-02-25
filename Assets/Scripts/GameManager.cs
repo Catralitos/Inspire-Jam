@@ -67,12 +67,5 @@ public class GameManager : MonoBehaviour
         return LoadData()._scene;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown("s"))
-        {
-            SaveScene();
-        }
-    }
 }
 
