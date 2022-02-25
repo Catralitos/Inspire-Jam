@@ -68,5 +68,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   criticalHitMultiplier: 1.5
-  criticalHitChance: 0
+  criticalHitChance: 0.35
+  hitPercentage: 0.5
   debuffPercentage: 0.2

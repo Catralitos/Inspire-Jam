@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -74,42 +73,77 @@ namespace Combat
         [Header("Critical Hits")] public float criticalHitMultiplier = 1.5f;
         [Range(0f, 1f)] public float criticalHitChance = 0.35f;
 
+        [Range(0f, 1f)] public float hitPercentage = 0.5f;
         [Range(0f, 1f)] public float debuffPercentage = 0.2f;
 
         public void PerformMove(Move performerMove, Move targetMove, Unit performer, Unit target)
         {
-            if (performerMove == null || targetMove == null || performer == null || target == null)
+            if (performer == null || target == null)
             {
                 _battleSystem.DisplayMessage(performer.unitName + " did nothing...");
                 return;
             }
 
             //Evasion and crits
-            //TODO rever o willHit
-            bool willHit = performer.accuracy / target.evasion > 0.5f;
-            float criticalRoll = Random.Range(0f, 1f);
-            float criticalDamage = criticalRoll >= criticalHitChance ? 1 : criticalHitMultiplier;
+            bool willHit = 1.0f * performer.accuracy / target.evasion * Random.Range(0.0f, 1.0f) > hitPercentage;
+            float criticalRoll = Random.Range(0.0f, 1.0f);
+            float criticalDamage = criticalRoll < criticalHitChance ? criticalHitMultiplier : 1;
+            bool wasCritical = criticalRoll < criticalHitChance;
 
             //Damage formulas
-            int physicalDefense = targetMove == Move.Defend ? target.currentDefense * 2 : target.currentDefense;
-            physicalDefense = targetMove == Move.HealingDefend || targetMove == Move.DefendMeat ||
-                              targetMove == Move.DefendFish || targetMove == Move.DefendVegetables
-                ? Mathf.RoundToInt(target.currentDefense * 1.5f)
-                : target.currentDefense;
 
-            int specialDefense = targetMove == Move.Defend
-                ? target.currentSpecialDefense * 2
-                : target.currentSpecialDefense;
-            specialDefense = targetMove == Move.HealingDefend || targetMove == Move.DefendMeat ||
-                             targetMove == Move.DefendFish || targetMove == Move.DefendVegetables
-                ? Mathf.RoundToInt(target.currentSpecialDefense * 1.5f)
-                : target.currentSpecialDefense;
+            int physicalDefense;
+            if (targetMove == Move.Defend)
+            {
+                physicalDefense = target.currentDefense * 2;
+            }
+            else if (targetMove == Move.HealingDefend || targetMove == Move.DefendMeat ||
+                     targetMove == Move.DefendFish || targetMove == Move.DefendVegetables)
+            {
+                physicalDefense = Mathf.RoundToInt(target.currentDefense * 1.5f);
+            }
+            else
+            {
+                physicalDefense = target.currentDefense;
+            }
+
+
+            int specialDefense;
+            if (targetMove == Move.Defend)
+            {
+                specialDefense = target.currentSpecialDefense * 2;
+            }
+            else if (targetMove == Move.HealingDefend || targetMove == Move.DefendMeat ||
+                     targetMove == Move.DefendFish || targetMove == Move.DefendVegetables)
+            {
+                specialDefense = Mathf.RoundToInt(target.currentSpecialDefense * 1.5f);
+            }
+            else
+            {
+                specialDefense = target.currentSpecialDefense;
+            }
+
+            if (performer == _battleSystem.playerUnit) Debug.Log(target.unitName + "'s  defense " + physicalDefense);
+            if (performer == _battleSystem.playerUnit)
+                Debug.Log(target.unitName + "'s special defense " + specialDefense);
+
 
             int physicalDamage = Mathf.RoundToInt(performer.currentAttack * performer.currentAttack * criticalDamage /
                                                   physicalDefense);
+
             int specialDamage =
                 Mathf.RoundToInt(performer.currentSpecialAttack * performer.currentSpecialAttack * criticalDamage /
                                  specialDefense);
+
+            if (performer == _battleSystem.playerUnit)
+                Debug.Log(performer.unitName + "'s physical damage " + physicalDamage);
+            if (performer == _battleSystem.playerUnit)
+            {
+                Debug.Log(performer.unitName + "'s special damage " + specialDamage);
+                Debug.Log(performer.currentSpecialAttack * performer.currentSpecialAttack * criticalDamage /
+                          specialDefense);
+            }
+
             int toHeal = performer.currentSpecialAttack * 2;
 
             if (performerMove == Move.HealingDefend)
@@ -143,13 +177,22 @@ namespace Combat
                 case Move.Attack:
                     if (!willHit)
                     {
-                        _battleSystem.DisplayMessage(performer.unitName + " attack's missed...");
+                        _battleSystem.DisplayMessage(performer.unitName + "'s attack missed...");
                         return;
                     }
 
                     target.TakeDamage(physicalDamage);
-                    _battleSystem.DisplayMessage(performer.unitName + " attack dealt " + physicalDamage + " HP to " +
-                                                 target.unitName + ".");
+                    if (wasCritical)
+                    {
+                        _battleSystem.DisplayMessage("CRITICAL HIT! " + performer.unitName + " attack dealt " +
+                                                     physicalDamage + " HP to " + target.unitName + ".");
+                    }
+                    else
+                    {
+                        _battleSystem.DisplayMessage(performer.unitName + " attack dealt " + physicalDamage +
+                                                     " HP to " + target.unitName + ".");
+                    }
+
                     break;
                 case Move.Defend:
                     _battleSystem.DisplayMessage(performer.unitName + " defends.");
@@ -158,26 +201,57 @@ namespace Combat
                     performer.HealDamage(toHeal);
                     break;
                 case Move.Counter:
+
                     if (target.currentSpeed > performer.currentSpeed)
                     {
+                        if (!willHit)
+                        {
+                            _battleSystem.DisplayMessage(performer.unitName + "'s counter missed...");
+                            return;
+                        }
+
                         target.TakeDamage(physicalDamage * 2);
-                        _battleSystem.DisplayMessage(performer.unitName + " counters with " + physicalDamage +
-                                                     " damage dealt to " +
-                                                     target.unitName + ".");
+                        if (wasCritical)
+                        {
+                            _battleSystem.DisplayMessage("CRITICAL HIT! " + performer.unitName + " counters with " +
+                                                         physicalDamage + " damage dealt to " + target.unitName + ".");
+                        }
+                        else
+                        {
+                            _battleSystem.DisplayMessage(performer.unitName + " counters with " + physicalDamage +
+                                                         " damage dealt to " + target.unitName + ".");
+                        }
                     }
                     else
                     {
-                        _battleSystem.DisplayMessage(performer.unitName + " tries to counter! But " + target.unitName +
-                                                     " hasn't attacked yet.");
+                        _battleSystem.DisplayMessage(performer.unitName + " tries to counter! But " +
+                                                     target.unitName + " hasn't attacked yet.");
                     }
 
                     break;
                 case Move.Vampire:
+
+                    if (!willHit)
+                    {
+                        _battleSystem.DisplayMessage(performer.unitName + "'s vampire attack missed...");
+                        return;
+                    }
+
                     int aux = Mathf.RoundToInt(physicalDamage - (physicalDamage * debuffPercentage));
                     target.TakeDamage(aux);
                     performer.HealDamage(aux);
-                    _battleSystem.DisplayMessage(performer.unitName + " stole " + aux + " HP from " + target.unitName +
-                                                 "!");
+
+                    if (wasCritical)
+                    {
+                        _battleSystem.DisplayMessage("CRITICAL HIT! " + performer.unitName + " stole " + aux +
+                                                     " HP from " + target.unitName + "!");
+                    }
+                    else
+                    {
+                        _battleSystem.DisplayMessage(performer.unitName + " stole " + aux + " HP from " +
+                                                     target.unitName + "!");
+                    }
+
                     break;
                 case Move.HealingDefend:
                     //Diminuir a defesa já tá feito em cima, só falta diminuir o heal
@@ -186,6 +260,12 @@ namespace Combat
                                                  Mathf.RoundToInt(toHeal / 2f) + " HP.");
                     break;
                 case Move.Meat:
+                    if (!willHit)
+                    {
+                        _battleSystem.DisplayMessage(performer.unitName + "'s meat attack missed...");
+                        return;
+                    }
+
                     int meatDamage = Mathf.RoundToInt(specialDamage * target.meatMultiplier);
                     target.TakeDamage(meatDamage);
                     if (target.meatMultiplier < 0)
@@ -196,12 +276,27 @@ namespace Combat
                     }
                     else
                     {
-                        _battleSystem.DisplayMessage(performer.unitName + " performs a meat attack! " +
-                                                     target.unitName + " loses " + meatDamage + " HP!");
+                        if (wasCritical)
+                        {
+                            _battleSystem.DisplayMessage("CRITICAL HIT! " + performer.unitName +
+                                                         " performs a meat attack! " +
+                                                         target.unitName + " loses " + meatDamage + " HP!");
+                        }
+                        else
+                        {
+                            _battleSystem.DisplayMessage(performer.unitName + " performs a meat attack! " +
+                                                         target.unitName + " loses " + meatDamage + " HP!");
+                        }
                     }
 
                     break;
                 case Move.Fish:
+                    if (!willHit)
+                    {
+                        _battleSystem.DisplayMessage(performer.unitName + "'s meat attack missed...");
+                        return;
+                    }
+
                     int fishDamage = Mathf.RoundToInt(specialDamage * target.fishMultiplier);
                     target.TakeDamage(fishDamage);
                     if (target.fishMultiplier < 0)
@@ -212,12 +307,27 @@ namespace Combat
                     }
                     else
                     {
-                        _battleSystem.DisplayMessage(performer.unitName + " performs a fish attack! " +
-                                                     target.unitName + " loses " + fishDamage + " HP!");
+                        if (wasCritical)
+                        {
+                            _battleSystem.DisplayMessage("CRITICAL HIT! " + performer.unitName +
+                                                         " performs a fish attack! " +
+                                                         target.unitName + " loses " + fishDamage + " HP!");
+                        }
+                        else
+                        {
+                            _battleSystem.DisplayMessage(performer.unitName + " performs a fish attack! " +
+                                                         target.unitName + " loses " + fishDamage + " HP!");
+                        }
                     }
 
                     break;
                 case Move.Vegetables:
+                    if (!willHit)
+                    {
+                        _battleSystem.DisplayMessage(performer.unitName + "'s vegetable attack missed...");
+                        return;
+                    }
+
                     int vegetableDamage = Mathf.RoundToInt(specialDamage * target.vegetablesMultiplier);
                     target.TakeDamage(vegetableDamage);
                     if (target.vegetablesMultiplier < 0)
@@ -228,12 +338,27 @@ namespace Combat
                     }
                     else
                     {
-                        _battleSystem.DisplayMessage(performer.unitName + " performs a vegetable attack! " +
-                                                     target.unitName + " loses " + vegetableDamage + " HP!");
+                        if (wasCritical)
+                        {
+                            _battleSystem.DisplayMessage("CRITICAL HIT! " + performer.unitName +
+                                                         " performs a vegetable attack! " +
+                                                         target.unitName + " loses " + vegetableDamage + " HP!");
+                        }
+                        else
+                        {
+                            _battleSystem.DisplayMessage(performer.unitName + " performs a vegetable attack! " +
+                                                         target.unitName + " loses " + vegetableDamage + " HP!");
+                        }
                     }
 
                     break;
                 case Move.PhysicalMeat:
+                    if (!willHit)
+                    {
+                        _battleSystem.DisplayMessage(performer.unitName + "'s physical meat attack missed...");
+                        return;
+                    }
+
                     int physicalMeatDamage = Mathf.RoundToInt(physicalDamage * target.meatMultiplier);
                     target.TakeDamage(physicalMeatDamage);
                     if (target.meatMultiplier < 0)
@@ -244,12 +369,27 @@ namespace Combat
                     }
                     else
                     {
-                        _battleSystem.DisplayMessage(performer.unitName + " performs a physical meat attack! " +
-                                                     target.unitName + " loses " + physicalMeatDamage + " HP!");
+                        if (wasCritical)
+                        {
+                            _battleSystem.DisplayMessage("CRITICAL HIT! " + performer.unitName +
+                                                         " performs a physical meat attack! " +
+                                                         target.unitName + " loses " + physicalMeatDamage + " HP!");
+                        }
+                        else
+                        {
+                            _battleSystem.DisplayMessage(performer.unitName + " performs a physical meat attack! " +
+                                                         target.unitName + " loses " + physicalMeatDamage + " HP!");
+                        }
                     }
 
                     break;
                 case Move.PhysicalFish:
+                    if (!willHit)
+                    {
+                        _battleSystem.DisplayMessage(performer.unitName + "'s physical fish attack missed...");
+                        return;
+                    }
+
                     int physicalFishDamage = Mathf.RoundToInt(physicalDamage * target.fishMultiplier);
                     target.TakeDamage(physicalFishDamage);
                     if (target.fishMultiplier < 0)
@@ -260,12 +400,28 @@ namespace Combat
                     }
                     else
                     {
-                        _battleSystem.DisplayMessage(performer.unitName + " performs a physical fish attack! " +
-                                                     target.unitName + " loses " + physicalFishDamage + " HP!");
+                        if (wasCritical)
+                        {
+                            _battleSystem.DisplayMessage("CRITICAL HIT! " + performer.unitName +
+                                                         " performs a physical fish attack! " +
+                                                         target.unitName + " loses " + physicalFishDamage + " HP!");
+                        }
+
+                        else
+                        {
+                            _battleSystem.DisplayMessage(performer.unitName + " performs a physical fish attack! " +
+                                                         target.unitName + " loses " + physicalFishDamage + " HP!");
+                        }
                     }
 
                     break;
                 case Move.PhysicalVegetables:
+                    if (!willHit)
+                    {
+                        _battleSystem.DisplayMessage(performer.unitName + "'s physical vegetable attack missed...");
+                        return;
+                    }
+
                     int physicalVegetableDamage = Mathf.RoundToInt(physicalDamage * target.vegetablesMultiplier);
                     target.TakeDamage(physicalVegetableDamage);
                     if (target.vegetablesMultiplier < 0)
@@ -277,8 +433,20 @@ namespace Combat
                     }
                     else
                     {
-                        _battleSystem.DisplayMessage(performer.unitName + " performs a physical vegetable attack! " +
-                                                     target.unitName + " loses " + physicalVegetableDamage + " HP!");
+                        if (wasCritical)
+                        {
+                            _battleSystem.DisplayMessage("CRITICAL HIT " + performer.unitName +
+                                                         " performs a physical vegetable attack! " +
+                                                         target.unitName + " loses " + physicalVegetableDamage +
+                                                         " HP!");
+                        }
+                        else
+                        {
+                            _battleSystem.DisplayMessage(performer.unitName +
+                                                         " performs a physical vegetable attack! " +
+                                                         target.unitName + " loses " + physicalVegetableDamage +
+                                                         " HP!");
+                        }
                     }
 
                     break;
@@ -286,13 +454,14 @@ namespace Combat
                     if (target.currentSpeed > performer.currentSpeed)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + " tries to absorb a meat attack! But " +
-                                                   target.unitName + " has already attacked...");
+                                                     target.unitName + " has already attacked...");
                     }
                     else
                     {
                         performer.meatMultiplier = -1.0f;
                         _battleSystem.DisplayMessage(performer.unitName + " will absorb a meat attack!");
                     }
+
                     break;
                 case Move.AbsorbFish:
                     if (target.currentSpeed > performer.currentSpeed)
@@ -305,6 +474,7 @@ namespace Combat
                         performer.fishMultiplier = -1.0f;
                         _battleSystem.DisplayMessage(performer.unitName + " will absorb a fish attack!");
                     }
+
                     break;
                 case Move.AbsorbVegetables:
                     if (target.currentSpeed > performer.currentSpeed)
@@ -317,17 +487,15 @@ namespace Combat
                         performer.vegetablesMultiplier = -1.0f;
                         _battleSystem.DisplayMessage(performer.unitName + " will absorb a vegetable attack!");
                     }
+
                     break;
                 case Move.DefendMeat:
-                    //defesa tratada em cima
                     _battleSystem.DisplayMessage(performer.unitName + " will defends with meat.");
                     break;
                 case Move.DefendFish:
-                    //defesa tratada em cima
                     _battleSystem.DisplayMessage(performer.unitName + " defends with fish.");
                     break;
                 case Move.DefendVegetables:
-                    //defesa tratada em cima
                     _battleSystem.DisplayMessage(performer.unitName + " defends with vegetables.");
                     break;
                 case Move.SwitchMeat:

@@ -9,12 +9,13 @@ namespace Combat
 {
     public enum BattleState
     {
-        START,
-        TURN,
-        ERROR,
-        PLAYOUT,
-        WON,
-        LOST
+        Start,
+        Turn,
+        Error,
+        Confirmation,
+        Playout,
+        Won,
+        Lost
     }
 
     public class BattleSystem : MonoBehaviour
@@ -52,19 +53,20 @@ namespace Combat
 
         [Header("Brush")] public Transform brush;
 
+        private string _playerMoveString;
+
         private void Start()
         {
-            state = BattleState.START;
+            state = BattleState.Start;
+            playerHUD.SetHUD(playerUnit);
+            enemyHUD.SetHUD(enemyUnit);
+            DisplayMessage(enemyUnit.unitName + " has appeared!");
+
             StartCoroutine(SetupBattle());
         }
 
         IEnumerator SetupBattle()
         {
-            DisplayMessage(enemyUnit.unitName + " has appeared!");
-
-            playerHUD.SetHUD(playerUnit);
-            enemyHUD.SetHUD(enemyUnit);
-
             yield return new WaitForSeconds(2f);
 
             SetStateToTurn();
@@ -72,44 +74,53 @@ namespace Combat
 
         private void SetStateToTurn()
         {
-            state = BattleState.TURN;
+            state = BattleState.Turn;
             DisplayMessage("Paint an action! Press space to finish, and R to clear the canvas.");
+        }
+
+        private void SetStateToConfirm()
+        {
+            state = BattleState.Confirmation;
+            DisplayMessage("Do you want to perform a " + _playerMoveString + " move? Space to confirm, R to redraw.");
         }
 
         private void Update()
         {
-            if (state == BattleState.TURN)
+            if (state == BattleState.Turn)
             {
-                if (Input.GetKey(KeyCode.R))
+                if (Input.GetKeyDown(KeyCode.R))
                 {
                     LineManager.Instance.ClearLine();
                 }
 
-                if (Input.GetKey(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space))
 
                 {
-                    //Vector3 temp = Input.mousePosition;
-                    //temp.z = .4f;
-
-                    /*if (Input.GetKey(KeyCode.A))
-                {
-                    Debug.Log("Detetou o A");
-                    Attack(playerUnit);
-                }*/
-                    //brush.position = Vector3.Lerp(brush.position, Camera.main.ScreenToWorldPoint(temp), .5f);
-                    //ClampPosition(brush);
-
-                    string move = LineManager.Instance.TryRecognize();
-                    Debug.Log("No battle system " + move);
-                    if (move != "") ChooseMove(move);
+                    _playerMoveString = LineManager.Instance.TryRecognize();
+                    if (_playerMoveString != "")
+                    {
+                        SetStateToConfirm();
+                    }
                     else StartCoroutine(ActionNotRecognized());
+                }
+            }
+            else if (state == BattleState.Confirmation)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Debug.Log("Entrou no space");
+                    ChooseMove(_playerMoveString);
+                }
+                else if (Input.GetKeyDown(KeyCode.R))
+                {
+                    SetStateToTurn();
                 }
             }
         }
 
         private IEnumerator ActionNotRecognized()
         {
-            state = BattleState.ERROR;
+            state = BattleState.Error;
             DisplayMessage("Your move was not recognized. Please try again.");
             yield return new WaitForSeconds(3f);
             SetStateToTurn();
@@ -117,29 +128,32 @@ namespace Combat
 
         private void ChooseMove(string move)
         {
-            if (state != BattleState.TURN || move == "") return;
-            
+            if (state != BattleState.Confirmation || move == "") return;
+
             playerMove = (UnitMoves.Move) Enum.Parse(typeof(UnitMoves.Move), move);
-            Debug.Log("No choose move do battle system " + playerMove);
             enemyMove = enemyUnit.ChooseMove(playerUnit, lastEnemyMove, lastPlayerMove);
             StartCoroutine(nameof(PlayOutTurn));
         }
 
         private IEnumerator PlayOutTurn()
         {
-            state = BattleState.PLAYOUT;
+            state = BattleState.Playout;
 
             bool playerPerformed = false;
             bool enemyPerformed = false;
 
-            if (playerMove == UnitMoves.Move.Defend)
+            if (playerMove == UnitMoves.Move.Defend || playerMove == UnitMoves.Move.DefendFish ||
+                playerMove == UnitMoves.Move.DefendMeat || playerMove == UnitMoves.Move.DefendMeat ||
+                playerMove == UnitMoves.Move.HealingDefend)
             {
                 PlayerAction(playerPerformed);
                 playerPerformed = true;
                 yield return new WaitForSeconds(3f);
             }
 
-            if (enemyMove == UnitMoves.Move.Defend)
+            if (enemyMove == UnitMoves.Move.Defend || enemyMove == UnitMoves.Move.DefendFish ||
+                enemyMove == UnitMoves.Move.DefendMeat || enemyMove == UnitMoves.Move.DefendMeat ||
+                enemyMove == UnitMoves.Move.HealingDefend)
             {
                 EnemyAction(enemyPerformed);
                 enemyPerformed = true;
@@ -167,19 +181,20 @@ namespace Combat
             playerUnit.SetType(playerUnit.currentType);
             enemyUnit.SetType(enemyUnit.currentType);
 
-            state = BattleState.TURN;
+            state = BattleState.Turn;
             DisplayMessage("Paint an action! Press space to finish, and R to clear the canvas.");
         }
 
         private void PlayerAction(bool playerPerformed)
         {
             if (playerPerformed) return;
+            Debug.Log("/////////////////////////////////////////////");
             UnitMoves.Instance.PerformMove(playerMove, enemyMove, playerUnit, enemyUnit);
             enemyHUD.SetHP(enemyUnit.currentHp);
 
             if (enemyUnit.currentHp <= 0)
             {
-                state = BattleState.WON;
+                state = BattleState.Won;
                 WonBattle();
             }
         }
@@ -187,12 +202,13 @@ namespace Combat
         private void EnemyAction(bool enemyPerformed)
         {
             if (enemyPerformed) return;
+            Debug.Log("/////////////////////////////////////////////");
             UnitMoves.Instance.PerformMove(enemyMove, playerMove, enemyUnit, playerUnit);
             playerHUD.SetHP(playerUnit.currentHp);
 
             if (playerUnit.currentHp <= 0)
             {
-                state = BattleState.LOST;
+                state = BattleState.Lost;
                 LostBattle();
             }
         }
@@ -215,13 +231,6 @@ namespace Combat
         {
             dialogueText.text = message;
         }
-
-        private void ClampPosition(Transform obj)
-        {
-            Vector3 pos = Camera.main.WorldToViewportPoint(obj.position);
-            pos.x = Mathf.Clamp01(pos.x);
-            pos.y = Mathf.Clamp01(pos.y);
-            obj.position = Camera.main.ViewportToWorldPoint(pos);
-        }
+        
     }
 }

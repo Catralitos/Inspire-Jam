@@ -63,7 +63,7 @@ namespace Brush
 
         private void Update()
         {
-            if (battleSystem.state != BattleState.TURN) return;
+            if (battleSystem.state != BattleState.Turn) return;
 
             if (Input.GetMouseButton(0))
             {
@@ -107,6 +107,8 @@ namespace Brush
             {
                 _points.Add(new Point(_virtualKeyPosition.x, -_virtualKeyPosition.y, _strokeId));
 
+                if (_currentGestureLineRenderer == null) return;
+
                 _currentGestureLineRenderer.SetVertexCount(++_vertexCount);
                 _currentGestureLineRenderer.SetPosition(_vertexCount - 1,
                     Camera.main.ScreenToWorldPoint(new Vector3(_virtualKeyPosition.x, _virtualKeyPosition.y, 10)));
@@ -134,22 +136,7 @@ namespace Brush
             }
 
             if (_recognized) ClearLine();
-            Debug.Log(gestureResult.GestureClass);
-            return gestureResult.GestureClass.ToString();
-
-            /*if (gestureResult.GestureClass == "Attack")
-            {
-                if (_recognized) ClearLine();
-                return "Attack";
-            }
-
-            if (gestureResult.GestureClass == "Defense")
-            {
-                if (_recognized) ClearLine();
-                return "Defense";
-            }
-
-            return "";*/
+            return gestureResult.GestureClass;
         }
 
 

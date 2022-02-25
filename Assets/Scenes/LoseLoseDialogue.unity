@@ -564,6 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79acbc784fb974b0a8ac6a28b3ae3017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextScene: MainMenu
   dialogBox: {fileID: 1081215397}
   leftPortrait: {fileID: 1446214322}
   rightPortrait: {fileID: 309314452}
@@ -571,10 +572,10 @@ MonoBehaviour:
   textFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   delay: 0.1
   dialogueLines:
-  - line: 'Sans: Hello there.'
+  - line: 'Sans: you lost twice'
     leftSprite: {fileID: 21300000, guid: d82fa09f64d874ba7b95a9d89b8aadc4, type: 3}
     rightSprite: {fileID: 21300000, guid: fd08d21cb05624c3c9e764714f80aefb, type: 3}
-  - line: 'Frisk: Hello!'
+  - line: 'Frisk: ok'
     leftSprite: {fileID: 21300000, guid: fd08d21cb05624c3c9e764714f80aefb, type: 3}
     rightSprite: {fileID: 21300000, guid: d82fa09f64d874ba7b95a9d89b8aadc4, type: 3}
 --- !u!114 &1315881946

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneSwitcher : MonoBehaviour
 {
-   public void LoseGame()
+    public void LoseGame()
     {
         SceneManager.LoadScene(sceneName: "LoseDialogue");
     }
@@ -25,8 +25,12 @@ public class SceneSwitcher : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName: "WinLoseDialogue");
     }
-    public void LoseWinLose()
+    public void LoseWinGame()
     {
         SceneManager.LoadScene(sceneName: "LoseWinDialogue");
+    }
+    public void StartGame()
+    {
+        SceneManager.LoadScene(sceneName: "PrologueDialogueScene");
     }
 }
