@@ -29,8 +29,10 @@ namespace DialogueSystem
         private void Awake()
         {
             index = 0;
-            leftPortrait.sprite = dialogueLines[index].leftSprite;
-            rightPortrait.sprite = dialogueLines[index].rightSprite;
+            if(leftPortrait != null)
+                leftPortrait.sprite = dialogueLines[index].leftSprite;
+            if (rightPortrait != null)
+                rightPortrait.sprite = dialogueLines[index].rightSprite;
             dialogBox.text = "";
         }
 
@@ -65,8 +67,10 @@ namespace DialogueSystem
             if (index < dialogueLines.Count - 1)
             {
                 index++;
-                leftPortrait.sprite = dialogueLines[index].leftSprite;
-                rightPortrait.sprite = dialogueLines[index].rightSprite;
+                if (leftPortrait != null)
+                    leftPortrait.sprite = dialogueLines[index].leftSprite;
+                if (rightPortrait != null)
+                    rightPortrait.sprite = dialogueLines[index].rightSprite;
                 dialogBox.text = "";
                 StartCoroutine(WriteText());
 
