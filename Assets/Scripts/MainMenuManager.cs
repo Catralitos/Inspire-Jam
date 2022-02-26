@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class MainMenuManager : MonoBehaviour
 {
 
-    public Button mouseButton,loadButton ,exitButton;
+    public Button mouseButton,loadButton ,controlsButton ,exitButton;
 
     private GameManager _gameManager;
 
@@ -13,6 +13,7 @@ public class MainMenuManager : MonoBehaviour
     {
         _gameManager = GameManager.Instance;
         mouseButton.onClick.AddListener(StartMouseGame);
+        controlsButton.onClick.AddListener(ShowControls);
         loadButton.onClick.AddListener(LoadGame);
         exitButton.onClick.AddListener(ExitGame);
     }
@@ -26,6 +27,11 @@ public class MainMenuManager : MonoBehaviour
     {
         string scene = _gameManager.LoadSceneData();
         _gameManager.LoadNextScene(scene);
+    }
+
+    private void ShowControls()
+    {
+        _gameManager.LoadNextScene("Controls");
     }
 
     private void ExitGame()
