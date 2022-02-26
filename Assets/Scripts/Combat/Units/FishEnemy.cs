@@ -9,28 +9,28 @@ namespace Combat.Units
         {
 
             bool needsHeal = 1.0f * currentHp / maxHp <= healthPercentageToHeal;
+            bool needsDebuff = 1.0f * currentHp / maxHp <= healthPercentageToHeal * 2;
             float x = Random.Range(0.0f, 1.0f);
-
-            if (currentSpeed <= speed || currentSpeed <= playerUnit.currentSpeed)
-            {
-                return x > 0.5 ? UnitMoves.Move.SpeedUp : UnitMoves.Move.SpeedDown;
-            }
-
-            if (!needsHeal && (lastPlayerMove == UnitMoves.Move.Attack || lastPlayerMove == UnitMoves.Move.PhysicalFish ||
-                               lastPlayerMove == UnitMoves.Move.PhysicalVegetables))
-            {
-                return UnitMoves.Move.Counter;
-            }
-
-            if (lastPlayerMove == UnitMoves.Move.DefendMeat || lastPlayerMove == UnitMoves.Move.AbsorbMeat)
+            
+            if (lastPlayerMove == UnitMoves.Move.DefendFish || lastPlayerMove == UnitMoves.Move.AbsorbFish)
             {
                 return UnitMoves.Move.Attack;
             }
             
             if (needsHeal)
             {
-                return x > 0.85f ? UnitMoves.Move.Vampire : UnitMoves.Move.Heal;
-            } 
+                return x < 0.85f ? UnitMoves.Move.Vampire : UnitMoves.Move.Heal;
+            }
+
+            if (lastPlayerMove == UnitMoves.Move.Attack || lastPlayerMove == UnitMoves.Move.PhysicalVegetables)
+            {
+                return UnitMoves.Move.Defend;
+            }
+            
+            if (needsDebuff)
+            {
+                return UnitMoves.Move.SpecialAttackDown;
+            }
 
             return UnitMoves.Move.PhysicalFish;
         }
