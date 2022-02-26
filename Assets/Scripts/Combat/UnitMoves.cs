@@ -103,7 +103,7 @@ namespace Combat
             {
                 physicalDefense = target.currentDefense;
             }
-            
+
             int specialDefense;
             if (targetMove == Move.Defend)
             {
@@ -180,6 +180,8 @@ namespace Combat
                     break;
                 case Move.Heal:
                     performer.HealDamage(toHeal);
+                    _battleSystem.DisplayMessage(performer.unitName + " heals " + (toHeal) + " HP.");
+
                     break;
                 case Move.Counter:
 
@@ -195,11 +197,11 @@ namespace Combat
                         if (wasCritical)
                         {
                             _battleSystem.DisplayMessage("CRITICAL HIT! " + performer.unitName + " counters with " +
-                                                         physicalDamage + " damage dealt to " + target.unitName + ".");
+                                                         (physicalDamage*2) + " damage dealt to " + target.unitName + ".");
                         }
                         else
                         {
-                            _battleSystem.DisplayMessage(performer.unitName + " counters with " + physicalDamage +
+                            _battleSystem.DisplayMessage(performer.unitName + " counters with " + (physicalDamage*2) +
                                                          " damage dealt to " + target.unitName + ".");
                         }
                     }
@@ -236,7 +238,7 @@ namespace Combat
                     break;
                 case Move.HealingDefend:
                     //Diminuir a defesa já tá feito em cima, só falta diminuir o heal
-                    performer.HealDamage(toHeal / 2);
+                    performer.HealDamage(Mathf.RoundToInt(toHeal / 2f));
                     _battleSystem.DisplayMessage(performer.unitName + " defended and healed " +
                                                  Mathf.RoundToInt(toHeal / 2f) + " HP.");
                     break;
@@ -274,7 +276,7 @@ namespace Combat
                 case Move.Fish:
                     if (!willHit)
                     {
-                        _battleSystem.DisplayMessage(performer.unitName + "'s meat attack missed...");
+                        _battleSystem.DisplayMessage(performer.unitName + "'s fish attack missed...");
                         return;
                     }
 
@@ -496,7 +498,7 @@ namespace Combat
                     _battleSystem.DisplayMessage(performer.unitName + " just raised their attack!");
                     break;
                 case Move.AttackDown:
-                    target.currentAttack += Mathf.RoundToInt(target.currentAttack * debuffPercentage);
+                    target.currentAttack -= Mathf.RoundToInt(target.currentAttack * debuffPercentage);
                     _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
                                                  "'s attack!");
                     break;
@@ -506,7 +508,7 @@ namespace Combat
                     _battleSystem.DisplayMessage(performer.unitName + " just raised their special attack!");
                     break;
                 case Move.SpecialAttackDown:
-                    target.currentSpecialAttack += Mathf.RoundToInt(target.currentSpecialAttack * debuffPercentage);
+                    target.currentSpecialAttack -= Mathf.RoundToInt(target.currentSpecialAttack * debuffPercentage);
                     _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
                                                  "'s special attack!");
                     break;
@@ -515,7 +517,7 @@ namespace Combat
                     _battleSystem.DisplayMessage(performer.unitName + " just raised their defense!");
                     break;
                 case Move.DefenseDown:
-                    target.currentDefense += Mathf.RoundToInt(target.currentDefense * debuffPercentage);
+                    target.currentDefense -= Mathf.RoundToInt(target.currentDefense * debuffPercentage);
                     _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
                                                  "'s defense!");
                     break;
@@ -525,7 +527,7 @@ namespace Combat
                     _battleSystem.DisplayMessage(performer.unitName + " just raised their special defense!");
                     break;
                 case Move.SpecialDefenseDown:
-                    target.currentSpecialDefense += Mathf.RoundToInt(target.currentSpecialDefense * debuffPercentage);
+                    target.currentSpecialDefense -= Mathf.RoundToInt(target.currentSpecialDefense * debuffPercentage);
                     _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
                                                  "'s special defense!");
                     break;
@@ -535,7 +537,7 @@ namespace Combat
                     _battleSystem.DisplayMessage(performer.unitName + " just raised their speed!");
                     break;
                 case Move.SpeedDown:
-                    target.currentSpeed += Mathf.RoundToInt(target.currentSpeed * debuffPercentage);
+                    target.currentSpeed -= Mathf.RoundToInt(target.currentSpeed * debuffPercentage);
                     _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
                                                  "'s speed!");
                     break;
@@ -545,7 +547,7 @@ namespace Combat
                     _battleSystem.DisplayMessage(performer.unitName + " just raised their evasion!");
                     break;
                 case Move.EvasionDown:
-                    target.currentEvasion += Mathf.RoundToInt(target.currentEvasion * debuffPercentage);
+                    target.currentEvasion -= Mathf.RoundToInt(target.currentEvasion * debuffPercentage);
                     _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
                                                  "'s evasion!");
                     break;
@@ -555,7 +557,7 @@ namespace Combat
                     _battleSystem.DisplayMessage(performer.unitName + " just raised their accuracy!");
                     break;
                 case Move.AccuracyDown:
-                    target.currentAccuracy += Mathf.RoundToInt(target.currentAccuracy * debuffPercentage);
+                    target.currentAccuracy -= Mathf.RoundToInt(target.currentAccuracy * debuffPercentage);
                     _battleSystem.DisplayMessage(performer.unitName + " just lowered " + target.unitName +
                                                  "'s accuracy!");
                     break;

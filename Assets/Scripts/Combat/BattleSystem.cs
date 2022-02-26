@@ -20,7 +20,7 @@ namespace Combat
 
     public class BattleSystem : MonoBehaviour
     {
-        [HideInInspector] public static BattleSystem Instance { get; private set; }
+        public static BattleSystem Instance { get; private set; }
 
         public void Awake()
         {
@@ -51,8 +51,8 @@ namespace Combat
         [HideInInspector] public UnitMoves.Move lastPlayerMove;
         [HideInInspector] public UnitMoves.Move lastEnemyMove;
 
-        public int turnsElapsed;
-        
+        [HideInInspector] public int turnsElapsed;
+
         private string _playerMoveString;
 
         private void Start()
@@ -65,7 +65,7 @@ namespace Combat
             StartCoroutine(SetupBattle());
         }
 
-        IEnumerator SetupBattle()
+        private IEnumerator SetupBattle()
         {
             yield return new WaitForSeconds(2f);
 
@@ -94,7 +94,6 @@ namespace Combat
                 }
 
                 if (Input.GetKeyDown(KeyCode.Space))
-
                 {
                     _playerMoveString = LineManager.Instance.TryRecognize();
                     if (_playerMoveString != "")
@@ -108,7 +107,6 @@ namespace Combat
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    Debug.Log("Entrou no space");
                     ChooseMove(_playerMoveString);
                 }
                 else if (Input.GetKeyDown(KeyCode.R))
@@ -160,7 +158,7 @@ namespace Combat
                 yield return new WaitForSeconds(3f);
             }
 
-            if (enemyUnit.speed > playerUnit.speed)
+            if (enemyUnit.currentSpeed > playerUnit.currentSpeed)
             {
                 EnemyAction(enemyPerformed);
                 yield return new WaitForSeconds(3f);
@@ -180,6 +178,8 @@ namespace Combat
             //tenho que fazer isto para dar reset dos buffs no caso do defend e absorb
             playerUnit.SetType(playerUnit.currentType);
             enemyUnit.SetType(enemyUnit.currentType);
+            playerHUD.SetHUD(playerUnit);
+            enemyHUD.SetHUD(enemyUnit);
 
             turnsElapsed++;
             SetStateToTurn();
@@ -191,11 +191,9 @@ namespace Combat
             UnitMoves.Instance.PerformMove(playerMove, enemyMove, playerUnit, enemyUnit);
             enemyHUD.SetHP(enemyUnit.currentHp);
 
-            if (enemyUnit.currentHp <= 0)
-            {
-                state = BattleState.Won;
-                WonBattle();
-            }
+            if (enemyUnit.currentHp > 0) return;
+            state = BattleState.Won;
+            WonBattle();
         }
 
         private void EnemyAction(bool enemyPerformed)
@@ -204,11 +202,9 @@ namespace Combat
             UnitMoves.Instance.PerformMove(enemyMove, playerMove, enemyUnit, playerUnit);
             playerHUD.SetHP(playerUnit.currentHp);
 
-            if (playerUnit.currentHp <= 0)
-            {
-                state = BattleState.Lost;
-                LostBattle();
-            }
+            if (playerUnit.currentHp > 0) return;
+            state = BattleState.Lost;
+            LostBattle();
         }
 
         private void WonBattle()
@@ -229,6 +225,5 @@ namespace Combat
         {
             dialogueText.text = message;
         }
-        
     }
 }

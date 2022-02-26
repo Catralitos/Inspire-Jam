@@ -25,18 +25,20 @@ namespace Combat
         [Range(0, 100)] public int evasion;
         [Range(0, 100)] public int accuracy;
 
-        [HideInInspector] public int currentHp;
-        [HideInInspector] public int currentAttack;
-        [HideInInspector] public int currentSpecialAttack;
-        [HideInInspector] public int currentDefense;
-        [HideInInspector] public int currentSpecialDefense;
-        [HideInInspector] public int currentSpeed;
-        [HideInInspector] public int currentEvasion;
-        [HideInInspector] public int currentAccuracy;
-        [HideInInspector] public Type currentType;
-        [HideInInspector] public float meatMultiplier;
-        [HideInInspector] public float vegetablesMultiplier;
-        [HideInInspector] public float fishMultiplier;
+
+        [Header("NAO TOCAR SÓ ESTÃO NO INSPETOR PARA DEBUG")]
+        public int currentHp;
+        public int currentAttack;
+        public int currentSpecialAttack;
+        public int currentDefense;
+        public int currentSpecialDefense;
+        public int currentSpeed;
+        public int currentEvasion;
+        public int currentAccuracy;
+        public Type currentType;
+        public float meatMultiplier;
+        public float vegetablesMultiplier;
+        public float fishMultiplier;
 
         public void Awake()
         {
@@ -56,7 +58,7 @@ namespace Combat
         {
             currentHp = Mathf.Clamp(currentHp - damage, 0, maxHp);
         }
-        
+
         public void HealDamage(int damage)
         {
             currentHp = Mathf.Clamp(currentHp + damage, 0, maxHp);

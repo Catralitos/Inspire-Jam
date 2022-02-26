@@ -54,7 +54,7 @@ MonoBehaviour:
   enemyMove: 0
   lastPlayerMove: 0
   lastEnemyMove: 0
-  brush: {fileID: 0}
+  turnsElapsed: 0
 --- !u!114 &9088753285191825349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,6 +68,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   criticalHitMultiplier: 1.5
-  criticalHitChance: 0.35
+  criticalHitChance: 0.15
   hitPercentage: 0.5
   debuffPercentage: 0.2

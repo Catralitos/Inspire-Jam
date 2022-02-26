@@ -7,6 +7,12 @@ namespace Combat.Units
     {
         private readonly List<Type> _availableTypes = new List<Type>();
         private readonly List<Type> _unavailableTypes = new List<Type>();
+
+        public int maxHeals = 2;
+        private int _numHeals = 0;
+
+        public int maxDebuffs = 1;
+        private int _numDebuffs;
         private void Start()
         {
             _availableTypes.Add(Type.Meat);
@@ -20,8 +26,10 @@ namespace Combat.Units
             bool needsHeal = 1.0f * currentHp / maxHp <= healthPercentageToHeal;
             bool needsDebuff = 1.0f * currentHp / maxHp <= healthPercentageToHeal * 2;
 
-            if (BattleSystem.Instance.turnsElapsed % 3 == 0)
+            if (BattleSystem.Instance.turnsElapsed > 0 && BattleSystem.Instance.turnsElapsed % 3 == 0)
             {
+                _numHeals = 0;
+                _numDebuffs = 0;
                 if (_availableTypes.Count != 0) return ReturnRightMove();
                 foreach (var t in _unavailableTypes.Where(t => t != currentType))
                 {
@@ -32,32 +40,37 @@ namespace Combat.Units
                 return ReturnRightMove();
             }
 
-            if ((lastPlayerMove == UnitMoves.Move.Meat || lastPlayerMove == UnitMoves.Move.PhysicalMeat) &&
-                currentType == Type.Vegetables)
+            if (_numHeals < maxHeals && needsHeal)
             {
-                return UnitMoves.Move.AbsorbVegetables;
+                _numHeals++;
+                return UnitMoves.Move.Heal;
             }
 
-            if ((lastPlayerMove == UnitMoves.Move.Fish || lastPlayerMove == UnitMoves.Move.PhysicalFish) &&
-                currentType == Type.Meat)
+            if (needsDebuff && _numDebuffs < maxDebuffs)
             {
-                return UnitMoves.Move.AbsorbMeat;
-            }
-
-            if ((lastPlayerMove == UnitMoves.Move.Vegetables || lastPlayerMove == UnitMoves.Move.PhysicalVegetables) &&
-                currentType == Type.Fish)
-            {
-                return UnitMoves.Move.AbsorbVegetables;
-            }
-
-            if (needsDebuff)
-            {
+                _numDebuffs++;
                 return UnitMoves.Move.AttackDown;
             }
             
-            if (needsHeal)
+            if (BattleSystem.Instance.turnsElapsed > 0 &&
+                (lastPlayerMove == UnitMoves.Move.Meat || lastPlayerMove == UnitMoves.Move.PhysicalMeat) &&
+                currentType == Type.Vegetables)
             {
-                return UnitMoves.Move.Heal;
+                return UnitMoves.Move.DefendMeat;
+            }
+
+            if (BattleSystem.Instance.turnsElapsed > 0 &&
+                (lastPlayerMove == UnitMoves.Move.Fish || lastPlayerMove == UnitMoves.Move.PhysicalFish) &&
+                currentType == Type.Meat)
+            {
+                return UnitMoves.Move.DefendFish;
+            }
+
+            if (BattleSystem.Instance.turnsElapsed > 0 && (lastPlayerMove == UnitMoves.Move.Vegetables ||
+                                                           lastPlayerMove == UnitMoves.Move.PhysicalVegetables) &&
+                currentType == Type.Fish)
+            {
+                return UnitMoves.Move.DefendVegetables;
             }
 
             return currentType switch
