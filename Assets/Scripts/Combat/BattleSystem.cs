@@ -51,8 +51,8 @@ namespace Combat
         [HideInInspector] public UnitMoves.Move lastPlayerMove;
         [HideInInspector] public UnitMoves.Move lastEnemyMove;
 
-        [Header("Brush")] public Transform brush;
-
+        public int turnsElapsed;
+        
         private string _playerMoveString;
 
         private void Start()
@@ -181,8 +181,8 @@ namespace Combat
             playerUnit.SetType(playerUnit.currentType);
             enemyUnit.SetType(enemyUnit.currentType);
 
-            state = BattleState.Turn;
-            DisplayMessage("Paint an action! Press space to finish, and R to clear the canvas.");
+            turnsElapsed++;
+            SetStateToTurn();
         }
 
         private void PlayerAction(bool playerPerformed)
