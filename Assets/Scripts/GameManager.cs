@@ -64,7 +64,10 @@ public class GameManager : MonoBehaviour
 
     public string LoadSceneData()
     {
-        return LoadData()._scene;
+        string scene = LoadData()._scene;
+        if(scene == null)
+            return "PrologueDialogue";
+        return scene;
     }
 
 }
