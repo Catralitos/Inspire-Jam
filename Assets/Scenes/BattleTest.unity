@@ -240,6 +240,7 @@ MonoBehaviour:
   meatMultiplier: 0
   vegetablesMultiplier: 0
   fishMultiplier: 0
+  healthPercentageToHeal: 0
 --- !u!1 &816298742
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,10 +740,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LineManager
       objectReference: {fileID: 0}
-    - target: {fileID: 4712166991908870466, guid: 44e80681ca6a7e84cb7de5b30282b942, type: 3}
-      propertyPath: matchingPercentage
-      value: 0.9
-      objectReference: {fileID: 0}
     - target: {fileID: 4712166991908870467, guid: 44e80681ca6a7e84cb7de5b30282b942, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -956,10 +953,6 @@ PrefabInstance:
     - target: {fileID: 9088753285191825348, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9088753285191825349, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
-      propertyPath: criticalHitChance
-      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 9088753285191825402, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
       propertyPath: m_Name
