@@ -620,7 +620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79acbc784fb974b0a8ac6a28b3ae3017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: MainMenu
+  nextScene: Credits
   dialogBox: {fileID: 1091037600}
   leftPortrait: {fileID: 1446214322}
   rightPortrait: {fileID: 309314452}
