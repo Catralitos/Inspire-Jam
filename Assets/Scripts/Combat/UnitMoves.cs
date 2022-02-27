@@ -1,3 +1,4 @@
+using Audio;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -5,6 +6,8 @@ namespace Combat
 {
     public class UnitMoves : MonoBehaviour
     {
+        private AudioManager _audioManager;
+
         public enum Move
         {
             Attack,
@@ -67,6 +70,7 @@ namespace Combat
 
         private void Start()
         {
+            _audioManager = GetComponent<AudioManager>();
             _battleSystem = BattleSystem.Instance;
         }
 
@@ -156,6 +160,7 @@ namespace Combat
             switch (performerMove)
             {
                 case Move.Attack:
+                    _audioManager.Play("Attack");
                     if (!willHit)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + "'s attack missed...");
@@ -176,15 +181,18 @@ namespace Combat
 
                     break;
                 case Move.Defend:
+                    _audioManager.Play("Defense");
                     _battleSystem.DisplayMessage(performer.unitName + " defends.");
                     break;
                 case Move.Heal:
+                    _audioManager.Play("Absorve");
                     performer.HealDamage(toHeal);
                     _battleSystem.DisplayMessage(performer.unitName + " heals " + (toHeal) + " HP.");
 
                     break;
                 case Move.Counter:
-
+                    _audioManager.Play("Defense");
+                    _audioManager.Play("Attack");
                     if (target.currentSpeed > performer.currentSpeed)
                     {
                         if (!willHit)
@@ -213,6 +221,8 @@ namespace Combat
 
                     break;
                 case Move.Vampire:
+                    _audioManager.Play("Attack");
+                    _audioManager.Play("Absorve");
 
                     if (!willHit)
                     {
@@ -237,6 +247,8 @@ namespace Combat
 
                     break;
                 case Move.HealingDefend:
+                    _audioManager.Play("Defense");
+                    _audioManager.Play("Absorve");
                     //Diminuir a defesa já tá feito em cima, só falta diminuir o heal
                     performer.HealDamage(Mathf.RoundToInt(toHeal / 2f));
                     _battleSystem.DisplayMessage(performer.unitName + " defended and healed " +
