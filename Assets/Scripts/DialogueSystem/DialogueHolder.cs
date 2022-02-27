@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +26,8 @@ namespace DialogueSystem
         [SerializeField] private float delay;
 
         public List<DialogueLine> dialogueLines;
+
+        private AudioManager _audioManager;
         
         private void Awake()
         {
@@ -34,10 +37,12 @@ namespace DialogueSystem
             if (rightPortrait != null)
                 rightPortrait.sprite = dialogueLines[index].rightSprite;
             dialogBox.text = "";
+            _audioManager = GetComponent<AudioManager>();
         }
 
         private void Start()
         {
+            _audioManager.Play("DialogueMusic");
             string sceneName = SceneManager.GetActiveScene().name;
             if (rightPortrait.sprite != null)
             {
