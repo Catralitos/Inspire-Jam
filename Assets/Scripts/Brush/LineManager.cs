@@ -34,6 +34,9 @@ namespace Brush
         private int _strokeId = -1;
 
         private Vector3 _virtualKeyPosition = Vector2.zero;
+        private Vector3 _lastVirtualKeyPosition = Vector2.zero;
+        public int pointsToDiscard = 5;
+
         private Rect _drawArea;
 
         private int _vertexCount = 0;
@@ -105,18 +108,22 @@ namespace Brush
 
             if (Input.GetMouseButton(0))
             {
-                _points.Add(new Point(_virtualKeyPosition.x, -_virtualKeyPosition.y, _strokeId));
+                if (_virtualKeyPosition != _lastVirtualKeyPosition)
+                {
+                    _points.Add(new Point(_virtualKeyPosition.x, -_virtualKeyPosition.y, _strokeId));
 
-                if (_currentGestureLineRenderer == null) return;
-
-                _currentGestureLineRenderer.SetVertexCount(++_vertexCount);
-                _currentGestureLineRenderer.SetPosition(_vertexCount - 1,
-                    Camera.main.ScreenToWorldPoint(new Vector3(_virtualKeyPosition.x, _virtualKeyPosition.y, 10)));
+                    _currentGestureLineRenderer.SetVertexCount(++_vertexCount);
+                    _currentGestureLineRenderer.SetPosition(_vertexCount - 1,
+                        Camera.main.ScreenToWorldPoint(new Vector3(_virtualKeyPosition.x, _virtualKeyPosition.y, 10)));
+                    _lastVirtualKeyPosition = _virtualKeyPosition;
+                }
             }
         }
 
         public string TryRecognize()
         {
+            KillEmptyRenderers();
+            
             if (_points.Count <= 0)
                 return "";
 
@@ -154,6 +161,19 @@ namespace Brush
             }
 
             _gestureLinesRenderer.Clear();
+        }
+        
+        private void KillEmptyRenderers()
+        {
+            List<LineRenderer> aux = new List<LineRenderer>(_gestureLinesRenderer);
+            foreach (LineRenderer lineRenderer in aux)
+            {
+                if (lineRenderer.positionCount <= pointsToDiscard)
+                {
+                    _gestureLinesRenderer.Remove(lineRenderer);
+                    Destroy(lineRenderer.gameObject);
+                }
+            }
         }
     }
 }

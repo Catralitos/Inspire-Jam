@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Gesture Name = "Defend">
+	<Stroke>
+		<Point X = "190" Y = "-228" T = "0" Pressure = "0" />
+		<Point X = "190" Y = "-227" T = "0" Pressure = "0" />
+		<Point X = "190" Y = "-224" T = "0" Pressure = "0" />
+		<Point X = "191" Y = "-212" T = "0" Pressure = "0" />
+		<Point X = "191" Y = "-207" T = "0" Pressure = "0" />
+		<Point X = "191" Y = "-193" T = "0" Pressure = "0" />
+		<Point X = "191" Y = "-174" T = "0" Pressure = "0" />
+		<Point X = "190" Y = "-160" T = "0" Pressure = "0" />
+		<Point X = "189" Y = "-145" T = "0" Pressure = "0" />
+		<Point X = "189" Y = "-138" T = "0" Pressure = "0" />
+		<Point X = "188" Y = "-124" T = "0" Pressure = "0" />
+		<Point X = "188" Y = "-115" T = "0" Pressure = "0" />
+		<Point X = "188" Y = "-110" T = "0" Pressure = "0" />
+		<Point X = "188" Y = "-109" T = "0" Pressure = "0" />
+	</Stroke>
+</Gesture>
