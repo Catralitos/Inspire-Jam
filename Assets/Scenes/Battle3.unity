@@ -500,7 +500,7 @@ MonoBehaviour:
   defense: 6
   specialDefense: 9
   speed: 6
-  evasion: 70
+  evasion: 50
   accuracy: 70
   currentHp: 0
   currentAttack: 0
@@ -515,7 +515,7 @@ MonoBehaviour:
   vegetablesMultiplier: 0
   fishMultiplier: 0
   healthPercentageToHeal: 0.35
-  maxHeals: 3
+  maxHeals: 1
   maxDebuffs: 1
 --- !u!114 &25828980845210428
 MonoBehaviour:

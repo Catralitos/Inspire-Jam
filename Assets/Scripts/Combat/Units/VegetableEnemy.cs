@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Combat.Units
 {
@@ -25,13 +26,14 @@ namespace Combat.Units
         {
             bool needsHeal = 1.0f * currentHp / maxHp <= healthPercentageToHeal;
             bool needsDebuff = 1.0f * currentHp / maxHp <= healthPercentageToHeal * 2;
-
+            float x = Random.Range(0.0f, 1.0f);
             if (BattleSystem.Instance.turnsElapsed > 0 && BattleSystem.Instance.turnsElapsed % 3 == 0)
             {
                 _numHeals = 0;
-                _numDebuffs = 0;
+                //_numDebuffs = 0;
                 if (_availableTypes.Count != 0) return ReturnRightMove();
-                foreach (var t in _unavailableTypes.Where(t => t != currentType))
+                List<Type> aux = new List<Type>(_unavailableTypes);
+                foreach (var t in aux.Where(t => t != currentType))
                 {
                     _availableTypes.Add(t);
                     _unavailableTypes.Remove(t);
@@ -40,10 +42,10 @@ namespace Combat.Units
                 return ReturnRightMove();
             }
 
-            if (_numHeals < maxHeals && needsHeal)
+            if (playerUnit.currentHp > 0.3f * playerUnit.maxHp && _numHeals < maxHeals && needsHeal)
             {
                 _numHeals++;
-                return UnitMoves.Move.Heal;
+                return x <= 0.85f ? UnitMoves.Move.Heal : UnitMoves.Move.Vampire;
             }
 
             if (needsDebuff && _numDebuffs < maxDebuffs)
