@@ -125,11 +125,11 @@ namespace Combat
                 Mathf.RoundToInt(performer.currentSpecialAttack * performer.currentSpecialAttack * criticalDamage /
                                  specialDefense);
 
-            int toHeal = performer.currentSpecialAttack * 2;
+            int toHeal = Mathf.RoundToInt(Mathf.Clamp(performer.currentSpecialAttack * performer.currentSpecialAttack * performer.currentSpecialAttack, 0f, performer.maxHp * 0.6f));
 
             if (performerMove == Move.HealingDefend)
             {
-                toHeal = Mathf.RoundToInt(performer.currentSpecialAttack * 1.5f);
+                toHeal = Mathf.RoundToInt(toHeal * 0.5f);
             }
             else if (performerMove == Move.DefendMeat)
             {
