@@ -3461,7 +3461,7 @@ PrefabInstance:
       objectReference: {fileID: 2110396004}
     - target: {fileID: 9088753285191825403, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
       propertyPath: loseScene
-      value: GameOver2
+      value: GameOver1
       objectReference: {fileID: 0}
     - target: {fileID: 9088753285191825403, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
       propertyPath: playerHUD
