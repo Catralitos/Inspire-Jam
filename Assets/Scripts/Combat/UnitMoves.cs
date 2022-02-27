@@ -287,6 +287,7 @@ namespace Combat
 
                     break;
                 case Move.Fish:
+                    _audioManager.Play("Fish");
                     if (!willHit)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + "'s fish attack missed...");
@@ -318,6 +319,7 @@ namespace Combat
 
                     break;
                 case Move.Vegetables:
+                    _audioManager.Play("Vegetables");
                     if (!willHit)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + "'s vegetable attack missed...");
@@ -382,6 +384,7 @@ namespace Combat
 
                     break;
                 case Move.PhysicalFish:
+                    _audioManager.Play("Fish");
                     _audioManager.Play("Attack");
                     if (!willHit)
                     {
@@ -415,6 +418,7 @@ namespace Combat
 
                     break;
                 case Move.PhysicalVegetables:
+                    _audioManager.Play("Vegetables");
                     _audioManager.Play("Attack");
                     if (!willHit)
                     {
@@ -466,6 +470,7 @@ namespace Combat
 
                     break;
                 case Move.AbsorbFish:
+                    _audioManager.Play("Fish");
                     _audioManager.Play("Absorve");
                     if (target.currentSpeed > performer.currentSpeed)
                     {
@@ -480,6 +485,7 @@ namespace Combat
 
                     break;
                 case Move.AbsorbVegetables:
+                    _audioManager.Play("Vegetables");
                     _audioManager.Play("Absorve");
                     if (target.currentSpeed > performer.currentSpeed)
                     {
@@ -499,10 +505,12 @@ namespace Combat
                     _battleSystem.DisplayMessage(performer.unitName + " will defends with meat.");
                     break;
                 case Move.DefendFish:
+                    _audioManager.Play("Fish");
                     _audioManager.Play("Defense");
                     _battleSystem.DisplayMessage(performer.unitName + " defends with fish.");
                     break;
                 case Move.DefendVegetables:
+                    _audioManager.Play("Vegetables");
                     _audioManager.Play("Defense");
                     _battleSystem.DisplayMessage(performer.unitName + " defends with vegetables.");
                     break;

@@ -151,3 +151,15 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Vegetables
+    clip: {fileID: 8300000, guid: 2c081a020c7ce4f409b533b5d5def355, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Fish
+    clip: {fileID: 8300000, guid: 106ea20bac0994fb5a6b46f5a19903d1, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
