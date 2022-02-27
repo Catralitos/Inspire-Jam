@@ -363,12 +363,38 @@ MonoBehaviour:
   textFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   delay: 0.1
   dialogueLines:
-  - line: 'Sans: You won!'
-    leftSprite: {fileID: 21300000, guid: d82fa09f64d874ba7b95a9d89b8aadc4, type: 3}
-    rightSprite: {fileID: 21300000, guid: fd08d21cb05624c3c9e764714f80aefb, type: 3}
-  - line: 'Frisk: Yes yes yes!'
-    leftSprite: {fileID: 21300000, guid: fd08d21cb05624c3c9e764714f80aefb, type: 3}
-    rightSprite: {fileID: 21300000, guid: d82fa09f64d874ba7b95a9d89b8aadc4, type: 3}
+  - line: 'Kai: ???'
+    leftSprite: {fileID: 21300000, guid: ac51ccb63df08ac4eb2740f7a425c15c, type: 3}
+    rightSprite: {fileID: 21300000, guid: 6d7b3299770784c6c896800fd16302b5, type: 3}
+  - line: "Nuggie: \"What\u2019s the matter,buddy? Are you nervous? You\u2019ve got
+      this far, I\u2019m sure you\u2019re gonna make it! Remember how you taught
+      those guys a lesson?  "
+    leftSprite: {fileID: 21300000, guid: ac51ccb63df08ac4eb2740f7a425c15c, type: 3}
+    rightSprite: {fileID: 21300000, guid: 6d7b3299770784c6c896800fd16302b5, type: 3}
+  - line: "Nuggie: You used the LEFT MOUSE CLICK to make those smooth moves as if
+      you were DRAWING in the air. You attacked them with that HORIZONTAL LINE, they
+      didn\u2019t see it coming, didn\u2019t they?! "
+    leftSprite: {fileID: 21300000, guid: ac51ccb63df08ac4eb2740f7a425c15c, type: 3}
+    rightSprite: {fileID: 21300000, guid: 6d7b3299770784c6c896800fd16302b5, type: 3}
+  - line: "Nuggie: HAH! But don\u2019t forget to defend yourself with a SQUARE, or
+      else you\u2019re gonna take a hit like in the middle of that one battle and
+      have to use the healing CROSS. "
+    leftSprite: {fileID: 21300000, guid: ac51ccb63df08ac4eb2740f7a425c15c, type: 3}
+    rightSprite: {fileID: 21300000, guid: 6d7b3299770784c6c896800fd16302b5, type: 3}
+  - line: 'Nuggie: So be careful, buddy. Oh! One last thing!Remember to use your
+      own techniques for different types of dishes.  '
+    leftSprite: {fileID: 21300000, guid: ac51ccb63df08ac4eb2740f7a425c15c, type: 3}
+    rightSprite: {fileID: 21300000, guid: 6d7b3299770784c6c896800fd16302b5, type: 3}
+  - line: 'Nuggie: SPIRAL for fish dishes, CIRCLE for meat dishes and finally TRIANGLE
+      for my favorite, veggie dishes. '
+    leftSprite: {fileID: 21300000, guid: ac51ccb63df08ac4eb2740f7a425c15c, type: 3}
+    rightSprite: {fileID: 21300000, guid: 6d7b3299770784c6c896800fd16302b5, type: 3}
+  - line: 'Nuggie: Good luck, Kai!'
+    leftSprite: {fileID: 21300000, guid: ac51ccb63df08ac4eb2740f7a425c15c, type: 3}
+    rightSprite: {fileID: 21300000, guid: 6d7b3299770784c6c896800fd16302b5, type: 3}
+  - line: 'MONSIEUR COUTEAU: SHARP PRRRRECISION! Is the key for clean CUTS!'
+    leftSprite: {fileID: 21300000, guid: ac51ccb63df08ac4eb2740f7a425c15c, type: 3}
+    rightSprite: {fileID: 21300000, guid: 27697830c186e0147bf8401640a35a5e, type: 3}
 --- !u!114 &768602072
 MonoBehaviour:
   m_ObjectHideFlags: 0
