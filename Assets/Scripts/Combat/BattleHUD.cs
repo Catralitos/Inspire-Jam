@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,18 +17,38 @@ namespace Combat
     
         public void SetHUD(Unit unit)
         {
-            _maxHp = unit.maxHp;
             nameText.text = unit.unitName;
+            SetHP(unit);
+            SetType(unit);
+        }
+
+        private void SetHP(Unit unit)
+        {
             hpSlider.maxValue = unit.maxHp;
             hpSlider.value = unit.currentHp;
             hpText.text = unit.currentHp + "/" + unit.maxHp;
-            typeText.text = unit.currentType.ToString();
         }
 
-        public void SetHP(int hp)
-        {
-            hpSlider.value = hp;
-            hpText.text = hp + "/" + _maxHp;
+        private void SetType(Unit unit)
+        {                    
+            typeText.text = unit.currentType.ToString();
+            switch (unit.currentType)
+            {
+                case Unit.Type.Neutral:
+                    typeText.color = Color.grey;
+                    break;
+                case Unit.Type.Meat:
+                    typeText.color = Color.red;
+                    break;
+                case Unit.Type.Vegetables:
+                    typeText.color = Color.green;
+                    break;
+                case Unit.Type.Fish:
+                    typeText.color = Color.blue;
+                    break;
+                default:
+                    break;
+            }
         }
    
     }

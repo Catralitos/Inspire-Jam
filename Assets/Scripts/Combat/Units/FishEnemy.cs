@@ -22,9 +22,15 @@ namespace Combat.Units
             }
 
             if (BattleSystem.Instance.turnsElapsed > 0 && (lastPlayerMove == UnitMoves.Move.Attack ||
+                                                           lastPlayerMove == UnitMoves.Move.Vampire))
+            {
+                return x < 0.5f ? UnitMoves.Move.Counter : UnitMoves.Move.Defend;
+            }
+
+            if (BattleSystem.Instance.turnsElapsed > 0 && (lastPlayerMove == UnitMoves.Move.Vegetables ||
                                                            lastPlayerMove == UnitMoves.Move.PhysicalVegetables))
             {
-                return UnitMoves.Move.Defend;
+                return UnitMoves.Move.DefendVegetables;
             }
 
             if (needsDebuff)

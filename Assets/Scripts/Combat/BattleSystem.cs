@@ -146,7 +146,7 @@ namespace Combat
             bool enemyPerformed = false;
 
             if (playerMove == UnitMoves.Move.Defend || playerMove == UnitMoves.Move.DefendFish ||
-                playerMove == UnitMoves.Move.DefendMeat || playerMove == UnitMoves.Move.DefendMeat ||
+                playerMove == UnitMoves.Move.DefendMeat || playerMove == UnitMoves.Move.DefendVegetables ||
                 playerMove == UnitMoves.Move.HealingDefend)
             {
                 PlayerAction(playerPerformed);
@@ -155,7 +155,7 @@ namespace Combat
             }
 
             if (enemyMove == UnitMoves.Move.Defend || enemyMove == UnitMoves.Move.DefendFish ||
-                enemyMove == UnitMoves.Move.DefendMeat || enemyMove == UnitMoves.Move.DefendMeat ||
+                enemyMove == UnitMoves.Move.DefendMeat || enemyMove == UnitMoves.Move.DefendVegetables ||
                 enemyMove == UnitMoves.Move.HealingDefend)
             {
                 EnemyAction(enemyPerformed);
@@ -194,7 +194,7 @@ namespace Combat
         {
             if (playerPerformed) return;
             UnitMoves.Instance.PerformMove(playerMove, enemyMove, playerUnit, enemyUnit);
-            enemyHUD.SetHP(enemyUnit.currentHp);
+            enemyHUD.SetHUD(enemyUnit);
 
             if (enemyUnit.currentHp > 0) return;
             state = BattleState.Won;
@@ -206,7 +206,7 @@ namespace Combat
         {
             if (enemyPerformed) return;
             UnitMoves.Instance.PerformMove(enemyMove, playerMove, enemyUnit, playerUnit);
-            playerHUD.SetHP(playerUnit.currentHp);
+            playerHUD.SetHUD(playerUnit);
 
             if (playerUnit.currentHp > 0) return;
             state = BattleState.Lost;
