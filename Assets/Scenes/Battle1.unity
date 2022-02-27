@@ -3539,7 +3539,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9088753285191825403, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
       propertyPath: winText
-      value: 'MONSIEUR COUTEAU: I lost, UNACCEPTABLE'
+      value: 'MONSIEUR COUTEAU: I lost, UNACCEPTABLE!!'
       objectReference: {fileID: 0}
     - target: {fileID: 9088753285191825403, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
       propertyPath: enemyHUD
