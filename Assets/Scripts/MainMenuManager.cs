@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
+    public Button newGameButton, loadButton, controlsButton, exitButton, backButton;
 
-    public Button mouseButton,loadButton ,controlsButton ,exitButton;
+    public GameObject mainScreen, tutorialScreen;
 
     private GameManager _gameManager;
     private AudioManager _audioManager;
@@ -15,13 +16,14 @@ public class MainMenuManager : MonoBehaviour
     {
         _audioManager = GetComponent<AudioManager>();
         _gameManager = GameManager.Instance;
-        mouseButton.onClick.AddListener(StartMouseGame);
+        newGameButton.onClick.AddListener(NewGame);
         controlsButton.onClick.AddListener(ShowControls);
         loadButton.onClick.AddListener(LoadGame);
         exitButton.onClick.AddListener(ExitGame);
+        backButton.onClick.AddListener(ShowMain);
     }
 
-    private void StartMouseGame()
+    private void NewGame()
     {
         _audioManager.Play("ButtonClick");
         _gameManager.LoadNextScene("PrologueDialogue");
@@ -37,7 +39,15 @@ public class MainMenuManager : MonoBehaviour
     private void ShowControls()
     {
         _audioManager.Play("ButtonClick");
-        _gameManager.LoadNextScene("Controls");
+        mainScreen.SetActive(false);
+        tutorialScreen.SetActive(true);
+    }
+
+    private void ShowMain()
+    {
+        _audioManager.Play("ButtonClick");
+        tutorialScreen.SetActive(false);
+        mainScreen.SetActive(true);
     }
 
     private void ExitGame()
@@ -45,5 +55,4 @@ public class MainMenuManager : MonoBehaviour
         _audioManager.Play("ButtonClick");
         Application.Quit();
     }
-
 }
