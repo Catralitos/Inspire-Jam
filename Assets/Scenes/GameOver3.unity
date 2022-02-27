@@ -183,7 +183,11 @@ MonoBehaviour:
   textFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   delay: 0.1
   dialogueLines:
-  - line: You Lost in battle 1
+  - line: "GRANNY SMITH: Oh, sweetpie, don\u2019t cry. Come           here, I\u2019ll
+      cook something special           just for you using the grand prize"
+    leftSprite: {fileID: 0}
+    rightSprite: {fileID: 0}
+  - line: "GRANNY SMITH GRABS KAI\u2019S HAND AND EXITS THE STAGE WITH THEM"
     leftSprite: {fileID: 0}
     rightSprite: {fileID: 0}
 --- !u!114 &106624121
