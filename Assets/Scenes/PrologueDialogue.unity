@@ -202,7 +202,7 @@ MonoBehaviour:
       have to use the healing CROSS. "
     leftSprite: {fileID: 21300000, guid: ac51ccb63df08ac4eb2740f7a425c15c, type: 3}
     rightSprite: {fileID: 21300000, guid: 6d7b3299770784c6c896800fd16302b5, type: 3}
-  - line: 'Nuggie: So be careful, buddy. Oh! One last thing!Remember to use your
+  - line: 'Nuggie: So be careful, buddy. Oh! One last thing! Remember to use your
       own techniques for different types of dishes.  '
     leftSprite: {fileID: 21300000, guid: ac51ccb63df08ac4eb2740f7a425c15c, type: 3}
     rightSprite: {fileID: 21300000, guid: 6d7b3299770784c6c896800fd16302b5, type: 3}

@@ -451,7 +451,7 @@ MonoBehaviour:
   textFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   delay: 0.1
   dialogueLines:
-  - line: "MONSIEUR COUTEAU: INSOLENT BRRRRAT!I\u2019ll be back faster and sharper
+  - line: "MONSIEUR COUTEAU: INSOLENT BRRRRAT! I\u2019ll be back faster and sharper
       than EVER! "
     leftSprite: {fileID: 21300000, guid: ac51ccb63df08ac4eb2740f7a425c15c, type: 3}
     rightSprite: {fileID: 21300000, guid: 27697830c186e0147bf8401640a35a5e, type: 3}
