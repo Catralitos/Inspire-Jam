@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9088753285191825348}
   - component: {fileID: 9088753285191825403}
   - component: {fileID: 9088753285191825349}
+  - component: {fileID: 2384287753144122721}
   m_Layer: 0
   m_Name: BattleSystem
   m_TagString: Untagged
@@ -45,6 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  winScene: 
+  loseScene: 
   playerUnit: {fileID: 0}
   playerHUD: {fileID: 0}
   enemyUnit: {fileID: 0}
@@ -71,3 +74,34 @@ MonoBehaviour:
   criticalHitChance: 0.15
   hitPercentage: 0.5
   debuffPercentage: 0.2
+--- !u!114 &2384287753144122721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9088753285191825402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07330d70dc29949d6bdb40175fc08a8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Attack
+    clip: {fileID: 8300000, guid: 669e150cb3941491484c431f98912eea, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Absorve
+    clip: {fileID: 8300000, guid: ee764110b48144824adc11d06058a18c, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Defense
+    clip: {fileID: 8300000, guid: 4f126d6a32ffd40fe8c09f838aba5d7c, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
