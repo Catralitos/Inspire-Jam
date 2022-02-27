@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Audio;
 using Brush;
 using Combat.Units;
 using TMPro;
@@ -69,8 +70,11 @@ namespace Combat
         
         private string _playerMoveString;
 
+        private AudioManager _audioManager;
         private void Start()
         {
+            _audioManager = GetComponent<AudioManager>();
+            _audioManager.Play("BattleMusic");
             state = BattleState.Start;
             playerHUD.SetHUD(playerUnit);
             enemyHUD.SetHUD(enemyUnit);

@@ -1954,6 +1954,12 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: MenuMusic
+    clip: {fileID: 8300000, guid: 37bab295d8ce9ef4191ff5e877ad7826, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
 --- !u!1 &1031066446
 GameObject:
   m_ObjectHideFlags: 0

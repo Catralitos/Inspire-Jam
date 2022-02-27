@@ -18,6 +18,7 @@ public class CreditsManager : MonoBehaviour
         _gameManager = GameManager.Instance;
         backButton.onClick.AddListener(LoadTitle);
         exitButton.onClick.AddListener(ExitGame);
+        _audioManager.Play("MenuMusic");
     }
 
     private void LoadTitle()

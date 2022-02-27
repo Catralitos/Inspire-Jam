@@ -402,6 +402,7 @@ GameObject:
   - component: {fileID: 908634595}
   - component: {fileID: 908634594}
   - component: {fileID: 908634593}
+  - component: {fileID: 908634596}
   m_Layer: 5
   m_Name: DialogueHolder
   m_TagString: Untagged
@@ -506,6 +507,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 908634591}
   m_CullTransparentMesh: 1
+--- !u!114 &908634596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908634591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07330d70dc29949d6bdb40175fc08a8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: DialogueMusic
+    clip: {fileID: 8300000, guid: 43333032414ce8944bd91910d0a11660, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
 --- !u!1 &1368340080
 GameObject:
   m_ObjectHideFlags: 0

@@ -135,8 +135,8 @@ GameObject:
   - component: {fileID: 717315639}
   - component: {fileID: 717315638}
   - component: {fileID: 717315637}
-  - component: {fileID: 717315636}
   - component: {fileID: 717315641}
+  - component: {fileID: 717315636}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -153,9 +153,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 717315635}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8538ce86f8b0405c964d795589384d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 07330d70dc29949d6bdb40175fc08a8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sounds:
+  - name: GameOverMusic
+    clip: {fileID: 8300000, guid: afc1e6535da26f944980ebd6dcf2a5ee, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!114 &717315637
 MonoBehaviour:
   m_ObjectHideFlags: 0

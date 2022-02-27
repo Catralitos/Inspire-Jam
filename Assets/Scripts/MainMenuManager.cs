@@ -21,6 +21,7 @@ public class MainMenuManager : MonoBehaviour
         loadButton.onClick.AddListener(LoadGame);
         exitButton.onClick.AddListener(ExitGame);
         backButton.onClick.AddListener(ShowMain);
+        _audioManager.Play("MenuMusic");
     }
 
     private void NewGame()

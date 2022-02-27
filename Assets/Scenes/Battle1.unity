@@ -3538,17 +3538,9 @@ PrefabInstance:
       value: BattleSystem
       objectReference: {fileID: 0}
     - target: {fileID: 9088753285191825403, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
-      propertyPath: winText
-      value: 'MONSIEUR COUTEAU: I lost, UNACCEPTABLE!!'
-      objectReference: {fileID: 0}
-    - target: {fileID: 9088753285191825403, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
       propertyPath: enemyHUD
       value: 
       objectReference: {fileID: 1621755701464269007}
-    - target: {fileID: 9088753285191825403, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
-      propertyPath: loseText
-      value: "MONSIEUR COUTEAU: TOO BAD, you didn\u2019t make the CUT!"
-      objectReference: {fileID: 0}
     - target: {fileID: 9088753285191825403, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
       propertyPath: enemyUnit
       value: 
