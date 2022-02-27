@@ -198,7 +198,8 @@ namespace Combat
 
             if (enemyUnit.currentHp > 0) return;
             state = BattleState.Won;
-            WonBattle();
+            DisplayMessage("You won!");
+            Invoke(nameof(WonBattle), 1f);
         }
 
         private void EnemyAction(bool enemyPerformed)
@@ -209,18 +210,17 @@ namespace Combat
 
             if (playerUnit.currentHp > 0) return;
             state = BattleState.Lost;
-            LostBattle();
+            DisplayMessage("You lost!");
+            Invoke(nameof(LostBattle), 1f);
         }
 
         private void WonBattle()
         {
-            DisplayMessage("You won!");
             SceneManager.LoadScene(sceneName: winScene);
         }
 
         private void LostBattle()
         {
-            DisplayMessage("You lost!");
             SceneManager.LoadScene(sceneName: loseScene);
         }
 
