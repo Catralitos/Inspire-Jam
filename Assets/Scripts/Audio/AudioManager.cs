@@ -23,7 +23,9 @@ namespace Audio
                 Debug.LogWarning("Sound " + name + " not found!");
                 return;
             }
-            if (!isPlaying(s.name)) s.Play();
+            //if (!isPlaying(s.name))
+            //TODO ver se nao me arrependo disto
+            s.Play();
         }
 
         public void Stop(string name)
