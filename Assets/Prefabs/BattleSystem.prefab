@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  winScene: 
-  loseScene: 
+  winScene: Dialogue1
+  loseScene: GameOver1
   playerUnit: {fileID: 0}
   playerHUD: {fileID: 0}
   enemyUnit: {fileID: 0}
@@ -58,6 +58,46 @@ MonoBehaviour:
   lastPlayerMove: 0
   lastEnemyMove: 0
   turnsElapsed: 0
+  winText: 
+  loseText: 
+  spriteHolder: {fileID: 0}
+  sprites:
+  - sprite: {fileID: 21300000, guid: b73d37e4f9e8fa140a8d88e9bf236c53, type: 3}
+    move: 0
+  - sprite: {fileID: 21300000, guid: d205a4d582173f34c842d66cef138b85, type: 3}
+    move: 1
+  - sprite: {fileID: 21300000, guid: 5c6cbc62a31fddd4093abad6e689a151, type: 3}
+    move: 2
+  - sprite: {fileID: 21300000, guid: 3131bb49fe90d93468f52f19fe23dd1f, type: 3}
+    move: 3
+  - sprite: {fileID: 21300000, guid: 0fad08b00ae195742931584e2d193e4e, type: 3}
+    move: 4
+  - sprite: {fileID: 21300000, guid: 67d88f362b263f04dbac6f455dc38524, type: 3}
+    move: 5
+  - sprite: {fileID: 21300000, guid: 8557f6b46f7cb6746b48661b4b6c6d58, type: 3}
+    move: 6
+  - sprite: {fileID: 21300000, guid: 3557c2090efabca469f0b54fdd07f8f8, type: 3}
+    move: 7
+  - sprite: {fileID: 21300000, guid: f5fa7365637da36428696e60939ede9d, type: 3}
+    move: 8
+  - sprite: {fileID: 21300000, guid: ab0d6e0468ee0cb49b0ec4a89260a8ce, type: 3}
+    move: 9
+  - sprite: {fileID: 21300000, guid: 085c0d9ec6f710840b88b89100ceb0ee, type: 3}
+    move: 10
+  - sprite: {fileID: 21300000, guid: ebdd1e0ca3d17004eb059625d54701a3, type: 3}
+    move: 11
+  - sprite: {fileID: 21300000, guid: 9e70d8e4c6af50343ade3ce41e0e0d01, type: 3}
+    move: 12
+  - sprite: {fileID: 21300000, guid: cfeb04ccc0cf631409da13dcffcd31a5, type: 3}
+    move: 13
+  - sprite: {fileID: 21300000, guid: d358f070b2bda0844aeae73ff811b098, type: 3}
+    move: 14
+  - sprite: {fileID: 21300000, guid: f70eddc83a4084e4898cec92f55159fa, type: 3}
+    move: 15
+  - sprite: {fileID: 21300000, guid: b98f6a0ebdd90d8429eb26d5989998e1, type: 3}
+    move: 16
+  - sprite: {fileID: 21300000, guid: afc635588d066094ea295f163d22f45e, type: 3}
+    move: 17
 --- !u!114 &9088753285191825349
 MonoBehaviour:
   m_ObjectHideFlags: 0

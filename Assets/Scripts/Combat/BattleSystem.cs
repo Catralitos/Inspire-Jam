@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Brush;
 using Combat.Units;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 namespace Combat
@@ -58,7 +61,11 @@ namespace Combat
 
         [HideInInspector] public int turnsElapsed;
 
-        public string opponentOneLiner;
+        [Header("Unique Dialogue")] public string winText;
+        public string loseText;
+
+        public Image spriteHolder;
+        public List<PairSpriteMove> sprites;
         
         private string _playerMoveString;
 
@@ -67,7 +74,8 @@ namespace Combat
             state = BattleState.Start;
             playerHUD.SetHUD(playerUnit);
             enemyHUD.SetHUD(enemyUnit);
-            DisplayMessage(opponentOneLiner);
+            DisplayMessage(enemyUnit.name + " has challenged you!");
+            spriteHolder.gameObject.SetActive(false);
 
             StartCoroutine(SetupBattle());
         }
@@ -82,15 +90,28 @@ namespace Combat
         private void SetStateToTurn()
         {
             state = BattleState.Turn;
+            spriteHolder.gameObject.SetActive(false);
+
             DisplayMessage("Paint an action! Press space to finish, and R to clear the canvas.");
         }
 
         private void SetStateToConfirm()
         {
             state = BattleState.Confirmation;
+            ChooseRightSprite();
+            spriteHolder.gameObject.SetActive(true);
             DisplayMessage("Do you want to perform a " + _playerMoveString + " move? Space to confirm, R to redraw.");
         }
 
+        private void ChooseRightSprite()
+        {
+            foreach (var pair in sprites.Where(pair => pair.move.ToString() == _playerMoveString))
+            {
+                spriteHolder.sprite = pair.sprite;
+                return;
+            }
+        }
+        
         private void Update()
         {
             if (state == BattleState.Turn)
@@ -126,6 +147,7 @@ namespace Combat
         private IEnumerator ActionNotRecognized()
         {
             state = BattleState.Error;
+            spriteHolder.gameObject.SetActive(false);
             DisplayMessage("Your move was not recognized. Please try again.");
             yield return new WaitForSeconds(3f);
             SetStateToTurn();
@@ -143,6 +165,7 @@ namespace Combat
         private IEnumerator PlayOutTurn()
         {
             state = BattleState.Playout;
+            spriteHolder.gameObject.SetActive(false);
 
             bool playerPerformed = false;
             bool enemyPerformed = false;
@@ -200,8 +223,8 @@ namespace Combat
 
             if (enemyUnit.currentHp > 0) return;
             state = BattleState.Won;
-            DisplayMessage("You won!");
-            Invoke(nameof(WonBattle), 1f);
+            DisplayMessage(winText);
+            Invoke(nameof(WonBattle), 3f);
         }
 
         private void EnemyAction(bool enemyPerformed)
@@ -212,8 +235,8 @@ namespace Combat
 
             if (playerUnit.currentHp > 0) return;
             state = BattleState.Lost;
-            DisplayMessage("You lost!");
-            Invoke(nameof(LostBattle), 1f);
+            DisplayMessage(loseText);
+            Invoke(nameof(LostBattle), 3f);
         }
 
         private void WonBattle()
