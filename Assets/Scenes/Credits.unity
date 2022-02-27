@@ -488,7 +488,9 @@ MonoBehaviour:
     Art\nNalurianne - UI, Backgrounds and Writing\nTGN-27 - Programming\nMade possible
     by Gamedev T\xE9cnico\nAditional Assets:\nMenu Sound FX Pack + More! by Hitrison\n200
     Free SFX by KronBits\nVisual Novel Music Pack and Classic JRPG Music Pack by
-    Rest!"
+    Rest!\nGame Music - action, skill, fast paced energetic electronic and Tuff Enough
+    - a fast, energetic, dramatic adrenaline fuelled pumping drum and percussion
+    piece ideal for extreme sports and high octane adventures by ZapSplat"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -515,7 +517,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 43.55
+  m_fontSize: 34.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
