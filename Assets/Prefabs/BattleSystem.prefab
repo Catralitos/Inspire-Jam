@@ -105,3 +105,9 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Meat
+    clip: {fileID: 8300000, guid: 92754231b5676490eab98613171e5942, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

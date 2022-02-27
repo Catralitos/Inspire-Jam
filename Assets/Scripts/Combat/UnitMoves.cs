@@ -255,6 +255,7 @@ namespace Combat
                                                  Mathf.RoundToInt(toHeal / 2f) + " HP.");
                     break;
                 case Move.Meat:
+                    _audioManager.Play("Meat");
                     if (!willHit)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + "'s meat attack missed...");
@@ -348,6 +349,8 @@ namespace Combat
 
                     break;
                 case Move.PhysicalMeat:
+                    _audioManager.Play("Meat");
+                    _audioManager.Play("Attack");
                     if (!willHit)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + "'s physical meat attack missed...");
@@ -379,6 +382,7 @@ namespace Combat
 
                     break;
                 case Move.PhysicalFish:
+                    _audioManager.Play("Attack");
                     if (!willHit)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + "'s physical fish attack missed...");
@@ -411,6 +415,7 @@ namespace Combat
 
                     break;
                 case Move.PhysicalVegetables:
+                    _audioManager.Play("Attack");
                     if (!willHit)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + "'s physical vegetable attack missed...");
@@ -446,6 +451,8 @@ namespace Combat
 
                     break;
                 case Move.AbsorbMeat:
+                    _audioManager.Play("Meat");
+                    _audioManager.Play("Absorve");
                     if (target.currentSpeed > performer.currentSpeed)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + " tries to absorb a meat attack! But " +
@@ -459,6 +466,7 @@ namespace Combat
 
                     break;
                 case Move.AbsorbFish:
+                    _audioManager.Play("Absorve");
                     if (target.currentSpeed > performer.currentSpeed)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + " tries to absorb a fish attack! But " +
@@ -472,6 +480,7 @@ namespace Combat
 
                     break;
                 case Move.AbsorbVegetables:
+                    _audioManager.Play("Absorve");
                     if (target.currentSpeed > performer.currentSpeed)
                     {
                         _battleSystem.DisplayMessage(performer.unitName + " tries to absorb a vegetable attack! But " +
@@ -485,12 +494,16 @@ namespace Combat
 
                     break;
                 case Move.DefendMeat:
+                    _audioManager.Play("Meat");
+                    _audioManager.Play("Defense");
                     _battleSystem.DisplayMessage(performer.unitName + " will defends with meat.");
                     break;
                 case Move.DefendFish:
+                    _audioManager.Play("Defense");
                     _battleSystem.DisplayMessage(performer.unitName + " defends with fish.");
                     break;
                 case Move.DefendVegetables:
+                    _audioManager.Play("Defense");
                     _battleSystem.DisplayMessage(performer.unitName + " defends with vegetables.");
                     break;
                 case Move.SwitchMeat:
