@@ -2424,7 +2424,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pummelling A La Carte is a turned based RPG, where two chefs battle it
+  m_text: 'Pummelling a La Carte is a turned based RPG, where two chefs battle it
     out.
 
     In order to perform commands, you must paint them with your food of
