@@ -58,6 +58,8 @@ namespace Combat
 
         [HideInInspector] public int turnsElapsed;
 
+        public string opponentOneLiner;
+        
         private string _playerMoveString;
 
         private void Start()
@@ -65,7 +67,7 @@ namespace Combat
             state = BattleState.Start;
             playerHUD.SetHUD(playerUnit);
             enemyHUD.SetHUD(enemyUnit);
-            DisplayMessage(enemyUnit.unitName + " has appeared!");
+            DisplayMessage(opponentOneLiner);
 
             StartCoroutine(SetupBattle());
         }
