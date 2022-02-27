@@ -13,7 +13,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
-        _audioManager = AudioManager.Instance;
+        _audioManager = GetComponent<AudioManager>();
         _gameManager = GameManager.Instance;
         mouseButton.onClick.AddListener(StartMouseGame);
         controlsButton.onClick.AddListener(ShowControls);

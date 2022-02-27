@@ -10,7 +10,7 @@ public class ControlsScript : MonoBehaviour
 
     void Start()
     {
-        _audioManager = AudioManager.Instance;
+        _audioManager = GetComponent<AudioManager>();
         backButton.onClick.AddListener(BackToMainMenu);
     }
 

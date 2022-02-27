@@ -791,10 +791,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: 
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
+  - name: ButtonClick
+    clip: {fileID: 8300000, guid: 6e9193191aee949fc91d7320fb2d4399, type: 3}
+    volume: 0.2
+    pitch: 1
     loop: 0
     source: {fileID: 0}
 --- !u!1 &1075247261
