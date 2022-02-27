@@ -4,6 +4,8 @@ using Brush;
 using Combat.Units;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 namespace Combat
 {
@@ -36,6 +38,9 @@ namespace Combat
         }
 
         [HideInInspector] public BattleState state;
+
+        public string winScene;
+        public string loseScene;
 
         [Header("Player")] public Player playerUnit;
         public BattleHUD playerHUD;
@@ -193,7 +198,8 @@ namespace Combat
 
             if (enemyUnit.currentHp > 0) return;
             state = BattleState.Won;
-            WonBattle();
+            DisplayMessage("You won!");
+            Invoke(nameof(WonBattle), 1f);
         }
 
         private void EnemyAction(bool enemyPerformed)
@@ -204,21 +210,18 @@ namespace Combat
 
             if (playerUnit.currentHp > 0) return;
             state = BattleState.Lost;
-            LostBattle();
+            DisplayMessage("You lost!");
+            Invoke(nameof(LostBattle), 1f);
         }
 
         private void WonBattle()
         {
-            DisplayMessage("You won!");
-            //invoke load scene certa (meter parametro)
-            UnityEditor.EditorApplication.isPlaying = false;
+            SceneManager.LoadScene(sceneName: winScene);
         }
 
         private void LostBattle()
         {
-            DisplayMessage("You lost!");
-            //invoke load scene certa (meter parametro)
-            UnityEditor.EditorApplication.isPlaying = false;
+            SceneManager.LoadScene(sceneName: loseScene);
         }
 
         public void DisplayMessage(string message)

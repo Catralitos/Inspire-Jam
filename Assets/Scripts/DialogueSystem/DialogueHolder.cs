@@ -39,7 +39,7 @@ namespace DialogueSystem
         private void Start()
         {
             string sceneName = SceneManager.GetActiveScene().name;
-            if (rightPortrait.sprite)
+            if (rightPortrait.sprite != null)
             {
                 GameManager.Instance.SaveScene();
             }
