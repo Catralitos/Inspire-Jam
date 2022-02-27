@@ -519,7 +519,7 @@ MonoBehaviour:
   textFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   delay: 0.1
   dialogueLines:
-  - line: You Lost in battle 1
+  - line: "MONSIEUR COUTEAU: TOO BAD, you didn\u2019t make the CUT!"
     leftSprite: {fileID: 0}
     rightSprite: {fileID: 0}
 --- !u!114 &1395701209
