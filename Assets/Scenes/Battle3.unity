@@ -3454,9 +3454,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1621755701464269007}
     - target: {fileID: 9088753285191825403, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
+      propertyPath: winScene
+      value: Dialogue3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088753285191825403, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
       propertyPath: enemyUnit
       value: 
       objectReference: {fileID: 2110396004}
+    - target: {fileID: 9088753285191825403, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
+      propertyPath: loseScene
+      value: GameOver3
+      objectReference: {fileID: 0}
     - target: {fileID: 9088753285191825403, guid: 133fa00467ce9314f947c93ef6df54dd, type: 3}
       propertyPath: playerHUD
       value: 

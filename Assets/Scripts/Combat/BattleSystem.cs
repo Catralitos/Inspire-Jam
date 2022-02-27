@@ -4,6 +4,8 @@ using Brush;
 using Combat.Units;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 namespace Combat
 {
@@ -36,6 +38,9 @@ namespace Combat
         }
 
         [HideInInspector] public BattleState state;
+
+        public string winScene;
+        public string loseScene;
 
         [Header("Player")] public Player playerUnit;
         public BattleHUD playerHUD;
@@ -210,15 +215,13 @@ namespace Combat
         private void WonBattle()
         {
             DisplayMessage("You won!");
-            //invoke load scene certa (meter parametro)
-            UnityEditor.EditorApplication.isPlaying = false;
+            SceneManager.LoadScene(sceneName: winScene);
         }
 
         private void LostBattle()
         {
             DisplayMessage("You lost!");
-            //invoke load scene certa (meter parametro)
-            UnityEditor.EditorApplication.isPlaying = false;
+            SceneManager.LoadScene(sceneName: loseScene);
         }
 
         public void DisplayMessage(string message)
